@@ -1,8 +1,7 @@
-"use strict";
 const person = {
-    firstName: "Ali",
-    middleName: "Haider",
-    lastName: "Mohammad",
+    firstName: undefined,
+    middleName: undefined,
+    lastName: undefined,
     getFullName() {
         if (this.middleName === undefined) {
             return `${this.firstName} ${this.lastName}`;
@@ -39,7 +38,6 @@ const person = {
         }
     }
 };
-console.log(person.getFullName());
 person.setFullName("Peter Olesen");
 console.log(person.getFullName());
 console.log(person.hasMiddleName());
@@ -48,3 +46,4 @@ console.log(person.getFullName());
 person.setFullName("Harry James Potter");
 console.log(person.getFullName());
 console.log(person.hasMiddleName());
+export {};

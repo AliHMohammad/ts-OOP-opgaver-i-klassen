@@ -1,5 +1,5 @@
 
-interface Person {
+export interface Person {
     firstName: string | undefined,
     middleName: string | undefined,
     lastName: string | undefined
@@ -13,9 +13,9 @@ interface Person {
 
 
 const person: Person = {
-    firstName:"Ali",
-    middleName: "Haider",
-    lastName: "Mohammad",
+    firstName: undefined,
+    middleName: undefined,
+    lastName: undefined,
 
     getFullName(): string {
         if (this.middleName === undefined) {
@@ -60,7 +60,7 @@ const person: Person = {
     }
 }
 
-console.log(person.getFullName());
+
 person.setFullName("Peter Olesen");
 console.log(person.getFullName());
 console.log(person.hasMiddleName());
