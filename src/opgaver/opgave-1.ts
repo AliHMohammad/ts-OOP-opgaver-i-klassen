@@ -63,9 +63,13 @@ const person: Person = {
 console.log(person.getFullName());
 person.setFullName("Peter Olesen");
 console.log(person.getFullName());
+console.log(person.hasMiddleName());
+
 person.setFullName("Jens Birke Petersen Henriksen")
 console.log(person.getFullName());
 person.setFullName("Harry James Potter");
 console.log(person.getFullName());
+console.log(person.hasMiddleName());
+
 
 
