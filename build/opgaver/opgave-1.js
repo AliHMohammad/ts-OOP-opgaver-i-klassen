@@ -17,13 +17,16 @@ const person = {
     setFullName(fullName) {
         // const [firstName, middleName, LastName] = fullName.split(" ");
         const fullNameArr = fullName.split(" ");
+        if (fullNameArr.length < 2) {
+            throw new Error("Missing last name");
+        }
         this.firstName = fullNameArr[0];
         this.lastName = fullNameArr[fullNameArr.length - 1];
-        let middleName = "";
         if (fullNameArr.length === 2) {
             this.middleName = undefined;
         }
         else {
+            let middleName = "";
             for (let i = 1; i < fullNameArr.length - 1; i++) {
                 if (i === fullNameArr.length - 2) {
                     middleName += `${fullNameArr[i]}`;

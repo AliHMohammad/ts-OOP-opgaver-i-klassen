@@ -8,7 +8,7 @@ interface Person {
 
     hasMiddleName(): boolean,
 
-    setFullName(fullName: string): void
+    setFullName(a: string): void
 }
 
 
@@ -31,15 +31,21 @@ const person: Person = {
 
     setFullName(fullName: string): void {
         // const [firstName, middleName, LastName] = fullName.split(" ");
+
         const fullNameArr = fullName.split(" ");
+
+        if (fullNameArr.length < 2) {
+            throw new Error("Missing last name")
+        }
+
         this.firstName = fullNameArr[0];
         this.lastName = fullNameArr[fullNameArr.length - 1];
 
-        let middleName = "";
-
+        
         if (fullNameArr.length === 2) {
             this.middleName = undefined;
         } else {
+            let middleName = "";
             for (let i = 1; i < fullNameArr.length - 1; i++){
                 if (i === fullNameArr.length - 2) {
                     middleName += `${fullNameArr[i]}`;
