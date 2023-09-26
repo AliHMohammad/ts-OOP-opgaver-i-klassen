@@ -119,7 +119,7 @@ function factoryResult(rawResult: RawResult): Result {
             }
         },
 
-        get time(): string | undefined {
+        get time(): string {
             if (this._time) {
                 const totalSeconds = Math.floor(this._time / 1000);
                 const minutes = Math.floor(totalSeconds / 60);
