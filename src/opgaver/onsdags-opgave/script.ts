@@ -12,6 +12,53 @@ async function initApp() {
     const rawMembersArr: RawMember[] = await getMembers();
     const rawResultsArr: RawResult[] = await getResults();
 
+    constructMembers(rawMembersArr);
+    constructResults(rawResultsArr);
+
+    showMembers(membersArr)
+    showResults(resultsArr)
+}
+
+function showMembers(members: Member[]) {
+    
+    for (const member of members) {
+        showMember(member)
+    }
+}
+
+function showMember(member: Member) {
+    const html = /*html*/ `
+    <tr>
+        <td>${member.name}</td>
+        <td>${member.isActiveMember}</td>
+        <td>${member.dateOfBirth}</td>
+        <td>${member.age}</td>
+        <td>${member.disciplines}</td>
+    </tr>
+    `;
+
+    document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
+}
+
+function showResults(results: Result[]) {
+
+    for (const result of results) {
+        showResult(result);
+    }
+}
+
+function showResult(result: Result) {
+    const html = /*html*/ `
+    <tr>
+        <td>${result.date}</td>
+        <td>${result.member ? result.member.name : "Ukendt"}</td>
+        <td>${result.discipline}</td>
+        <td>${result.resultType}</td>
+        <td>${result.time}</td>
+    </tr>
+    `;
+
+    document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
 }
 
 async function getMembers(): Promise<RawMember[]> {

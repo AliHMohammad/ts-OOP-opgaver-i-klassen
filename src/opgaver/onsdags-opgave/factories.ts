@@ -1,6 +1,13 @@
 import { Member, Result, RawMember, RawResult } from "./interfaces";
 import { membersArr } from "./script.js";
 
+const discipliner: {[key: string]: string} = {
+    breaststroke: "Bryst",
+    backstroke: "Ryg",
+    freestyle: "Fristil",
+    butterfly: "Sommerfugl"
+}
+
 function factoryMember(rawMember: RawMember): Member {
     const newMember: Member = {
         _id: rawMember.id,
@@ -36,6 +43,24 @@ function factoryMember(rawMember: RawMember): Member {
             const age = Math.floor(result / 1000 / 60 / 60 / 24 / 365);
 
             return age;
+        },
+
+        get isActiveMember(): string {
+            return this._isActiveMember === true ? "Ja" : "Nej"
+        },
+
+        get disciplines(): string {
+            let danskArr: string[] = [];
+
+            if (!this._disciplines) {
+                return "Ingen"
+            }
+
+            for (const discipline of this._disciplines) {
+                danskArr.push(discipliner[`${discipline}`])
+            }
+                
+            return danskArr.join(", ")
         },
 
         isJunior(): boolean {
@@ -80,7 +105,7 @@ function factoryResult(rawResult: RawResult): Result {
 
         set time(newTime: string) {
             try {
-                if (!newTime.includes(":") || newTime.includes(".")) {
+                if (!newTime.includes(":") || !newTime.includes(".")) {
                     throw new Error("Wrong format");
                 }
 
@@ -94,6 +119,20 @@ function factoryResult(rawResult: RawResult): Result {
             }
         },
 
+        get time(): string | undefined {
+            if (this._time) {
+                const totalSeconds = Math.floor(this._time / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                const millisecondsPart = (this._time % 1000).toString().padStart(3, "0");
+                
+                return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${millisecondsPart}`;
+            } else {
+                return "time on object is undefined."
+            }
+
+        },
+
         get member(): Member | undefined {
             return this._member
         },
@@ -102,10 +141,24 @@ function factoryResult(rawResult: RawResult): Result {
             const memberFound = membersArr.find((member) => member._id === memberId); 
 
             if (!memberFound) {
-                console.error("Could not attach member");
+                console.error("Error at set member(). Could not attach member");
+                this._member = undefined
             } else {
                 this._member = memberFound;
             }
+        },
+
+        get date(): string {
+            const date = new Intl.DateTimeFormat("da-DK", { year: "numeric", month: "long", day: "numeric" }).format(this._date);
+            return date;
+        },
+
+        get discipline(): string {
+            return discipliner[`${this._discipline}`];
+        },
+
+        get resultType(): string {
+            return this._resultType === "competition" ? "Kompetitiv" : "Træning"
         },
 
 

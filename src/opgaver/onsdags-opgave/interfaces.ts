@@ -2,7 +2,7 @@
 export interface Member {
     _id: string;
     _dateOfBirth: Date;
-    _disciplines: string[];
+    _disciplines?: string[];
     _email: string;
     _firstName: string;
     _lastName: string;
@@ -17,6 +17,8 @@ export interface Member {
     get age(): number;
     set dateOfBirth(a: string);
     get dateOfBirth(): string;
+    get isActiveMember(): string;
+    get disciplines(): string;
 
     isJunior(): boolean;
     isSenior(): boolean;
@@ -25,7 +27,7 @@ export interface Member {
 export interface RawMember {
     id: string;
     dateOfBirth: string;
-    disciplines: string[];
+    disciplines?: string[];
     email: string;
     firstName: string;
     lastName: string;
@@ -50,8 +52,12 @@ export interface Result {
 
 
     set time(a: string | number);
+    get time(): string | undefined;
     get member(): Member | undefined;
-    set member(memberId: string)
+    set member(memberId: string);
+    get date(): string;
+    get discipline(): string;
+    get resultType(): string;
 
 
     isTraining(): boolean;

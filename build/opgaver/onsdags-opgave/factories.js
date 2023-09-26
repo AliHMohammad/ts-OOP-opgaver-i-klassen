@@ -1,4 +1,10 @@
 import { membersArr } from "./script.js";
+const discipliner = {
+    breaststroke: "Bryst",
+    backstroke: "Ryg",
+    freestyle: "Fristil",
+    butterfly: "Sommerfugl"
+};
 function factoryMember(rawMember) {
     const newMember = {
         _id: rawMember.id,
@@ -29,6 +35,19 @@ function factoryMember(rawMember) {
             const result = date - time;
             const age = Math.floor(result / 1000 / 60 / 60 / 24 / 365);
             return age;
+        },
+        get isActiveMember() {
+            return this._isActiveMember === true ? "Ja" : "Nej";
+        },
+        get disciplines() {
+            let danskArr = [];
+            if (!this._disciplines) {
+                return "Ingen";
+            }
+            for (const discipline of this._disciplines) {
+                danskArr.push(discipliner[`${discipline}`]);
+            }
+            return danskArr.join(", ");
         },
         isJunior() {
             return this.age < 18 ? true : false;
@@ -63,7 +82,7 @@ function factoryResult(rawResult) {
         _member: undefined,
         set time(newTime) {
             try {
-                if (!newTime.includes(":") || newTime.includes(".")) {
+                if (!newTime.includes(":") || !newTime.includes(".")) {
                     throw new Error("Wrong format");
                 }
                 const [minutes, secondsAndMiliSec] = newTime.split(":");
@@ -75,17 +94,40 @@ function factoryResult(rawResult) {
                 console.log(error);
             }
         },
+        get time() {
+            if (this._time) {
+                const totalSeconds = Math.floor(this._time / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                const millisecondsPart = (this._time % 1000).toString().padStart(3, "0");
+                return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${millisecondsPart}`;
+            }
+            else {
+                return "time on object is undefined.";
+            }
+        },
         get member() {
             return this._member;
         },
         set member(memberId) {
             const memberFound = membersArr.find((member) => member._id === memberId);
             if (!memberFound) {
-                console.error("Could not attach member");
+                console.error("Error at set member(). Could not attach member");
+                this._member = undefined;
             }
             else {
                 this._member = memberFound;
             }
+        },
+        get date() {
+            const date = new Intl.DateTimeFormat("da-DK", { year: "numeric", month: "long", day: "numeric" }).format(this._date);
+            return date;
+        },
+        get discipline() {
+            return discipliner[`${this._discipline}`];
+        },
+        get resultType() {
+            return this._resultType === "competition" ? "Kompetitiv" : "Træning";
         },
         isTraining() {
             return this._resultType === "training" ? true : false;
