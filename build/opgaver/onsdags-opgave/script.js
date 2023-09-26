@@ -1,5 +1,5 @@
 import { initTabs } from "./tabs.js";
-import { factoryMember, factoryResult } from "./factories.js";
+import * as construct from "./factories.js";
 window.addEventListener("load", initApp);
 let membersArr = [];
 let resultsArr = [];
@@ -54,12 +54,12 @@ async function getResults() {
 }
 function constructMembers(rawMembers) {
     for (const rawMember of rawMembers) {
-        membersArr.push(factoryMember(rawMember));
+        membersArr.push(construct.factoryMember(rawMember));
     }
 }
 function constructResults(rawResults) {
     for (const rawResult of rawResults) {
-        resultsArr.push(factoryResult(rawResult));
+        resultsArr.push(construct.factoryResult(rawResult));
     }
 }
 export { membersArr, resultsArr };

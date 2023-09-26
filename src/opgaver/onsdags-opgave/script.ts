@@ -1,6 +1,6 @@
 import { initTabs } from "./tabs.js";
 import { Member, RawMember, RawResult, Result } from "./interfaces.js";
-import { factoryMember, factoryResult } from "./factories.js";
+import * as construct from "./factories.js"
 
 window.addEventListener("load", initApp);
 
@@ -71,13 +71,13 @@ async function getResults(): Promise<RawResult[]>{
 
 function constructMembers(rawMembers: RawMember[]) {
     for (const rawMember of rawMembers) {
-        membersArr.push(factoryMember(rawMember));
+        membersArr.push(construct.factoryMember(rawMember))
     }
 }
 
 function constructResults(rawResults: RawResult[]) {
     for (const rawResult of rawResults) {
-        resultsArr.push(factoryResult(rawResult));
+        resultsArr.push(construct.factoryResult(rawResult));
     }
 }
 
