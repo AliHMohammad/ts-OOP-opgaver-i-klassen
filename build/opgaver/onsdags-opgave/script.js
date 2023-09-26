@@ -9,6 +9,8 @@ async function initApp() {
     const rawResultsArr = await getResults();
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
+    sortMembers();
+    sortResults();
     showMembers(membersArr);
     showResults(resultsArr);
 }
@@ -45,6 +47,12 @@ function showResult(result) {
     </tr>
     `;
     document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
+}
+function sortResults() {
+    resultsArr.sort((a, b) => a.timeMiliSeconds - b.timeMiliSeconds);
+}
+function sortMembers() {
+    membersArr.sort((a, b) => a.name.localeCompare(b.name));
 }
 async function getMembers() {
     return await (await fetch("../../../data/members.json")).json();

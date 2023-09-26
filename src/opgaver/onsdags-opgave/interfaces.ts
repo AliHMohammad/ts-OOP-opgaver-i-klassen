@@ -53,6 +53,7 @@ export interface Result {
 
     set time(a: string | number);
     get time(): string | undefined;
+    get timeMiliSeconds(): number;
     get member(): Member | undefined;
     set member(memberId: string);
     get date(): string;

@@ -15,6 +15,9 @@ async function initApp() {
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
 
+    sortMembers()
+    sortResults()
+
     showMembers(membersArr)
     showResults(resultsArr)
 }
@@ -59,6 +62,14 @@ function showResult(result: Result) {
     `;
 
     document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
+}
+
+function sortResults() {
+    resultsArr.sort((a: Result, b: Result) => a.timeMiliSeconds - b.timeMiliSeconds);
+}
+
+function sortMembers() {
+    membersArr.sort((a: Member, b: Member) => a.name.localeCompare(b.name))
 }
 
 async function getMembers(): Promise<RawMember[]> {

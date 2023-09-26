@@ -133,6 +133,14 @@ function factoryResult(rawResult: RawResult): Result {
 
         },
 
+        get timeMiliSeconds(): number {
+            if (this._time) {
+                return this._time;
+            } else {
+                return 0
+            }
+        },
+
         get member(): Member | undefined {
             return this._member
         },

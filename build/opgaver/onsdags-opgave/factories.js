@@ -106,6 +106,14 @@ function factoryResult(rawResult) {
                 return "time on object is undefined.";
             }
         },
+        get timeMiliSeconds() {
+            if (this._time) {
+                return this._time;
+            }
+            else {
+                return 0;
+            }
+        },
         get member() {
             return this._member;
         },
