@@ -1,3 +1,4 @@
+import { membersArr } from "./script.js";
 function factoryMember(rawMember) {
     const newMember = {
         _id: rawMember.id,
@@ -59,6 +60,7 @@ function factoryResult(rawResult) {
         _discipline: rawResult.discipline,
         _resultType: rawResult.resultType,
         _time: undefined,
+        _member: undefined,
         set time(newTime) {
             try {
                 if (!newTime.includes(":") || newTime.includes(".")) {
@@ -72,8 +74,38 @@ function factoryResult(rawResult) {
             catch (error) {
                 console.log(error);
             }
+        },
+        get member() {
+            return this._member;
+        },
+        set member(memberId) {
+            const memberFound = membersArr.find((member) => member._id === memberId);
+            if (!memberFound) {
+                console.error("Could not attach member");
+            }
+            else {
+                this._member = memberFound;
+            }
+        },
+        isTraining() {
+            return this._resultType === "training" ? true : false;
+        },
+        isCompetition() {
+            return this._resultType === "competition" ? true : false;
         }
     };
+    Object.defineProperty(newResult, "_id", {
+        writable: false,
+        configurable: false,
+    });
+    Object.defineProperty(newResult, "isTraining", {
+        enumerable: false
+    });
+    Object.defineProperty(newResult, "isCompetition", {
+        enumerable: false,
+    });
     newResult.time = rawResult.time;
+    newResult.member = rawResult.memberId;
+    return newResult;
 }
-export { factoryMember };
+export { factoryMember, factoryResult };

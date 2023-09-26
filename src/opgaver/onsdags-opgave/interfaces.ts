@@ -46,9 +46,16 @@ export interface Result {
     _memberId: string;
     _resultType: string;
     _time: number | undefined;
+    _member: Member | undefined;
 
 
     set time(a: string | number);
+    get member(): Member | undefined;
+    set member(memberId: string)
+
+
+    isTraining(): boolean;
+    isCompetition(): boolean;
 }
 
 export interface RawResult {

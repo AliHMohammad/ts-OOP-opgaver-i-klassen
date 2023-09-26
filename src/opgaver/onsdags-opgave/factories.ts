@@ -1,5 +1,5 @@
 import { Member, Result, RawMember, RawResult } from "./interfaces";
-
+import { membersArr } from "./script.js";
 
 function factoryMember(rawMember: RawMember): Member {
     const newMember: Member = {
@@ -64,7 +64,7 @@ function factoryMember(rawMember: RawMember): Member {
     return newMember;
 }
 
-function factoryResult(rawResult: RawResult) {
+function factoryResult(rawResult: RawResult): Result {
     const newResult: Result = {
         _id: rawResult.id,
         _memberId: rawResult.memberId, 
@@ -75,7 +75,7 @@ function factoryResult(rawResult: RawResult) {
         _discipline: rawResult.discipline,
         _resultType: rawResult.resultType,
         _time: undefined,
-
+        _member: undefined,
 
 
         set time(newTime: string) {
@@ -92,12 +92,51 @@ function factoryResult(rawResult: RawResult) {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        get member(): Member | undefined {
+            return this._member
+        },
+
+        set member(memberId: string) {
+            const memberFound = membersArr.find((member) => member._id === memberId); 
+
+            if (!memberFound) {
+                console.error("Could not attach member");
+            } else {
+                this._member = memberFound;
+            }
+        },
+
+
+        isTraining(): boolean {
+            return this._resultType === "training" ? true : false;
+        },
+
+        isCompetition(): boolean {
+            return this._resultType === "competition" ? true : false;
         }
     }
 
+    Object.defineProperty(newResult, "_id", {
+        writable: false,
+        configurable: false,
+    });
+
+    Object.defineProperty(newResult, "isTraining", {
+        enumerable: false
+    });
+
+    Object.defineProperty(newResult, "isCompetition", {
+        enumerable: false,
+    });
+
     newResult.time = rawResult.time;
+    newResult.member = rawResult.memberId;
+
+    return newResult;
 }
 
 
 
-export {factoryMember}
+export {factoryMember, factoryResult}
