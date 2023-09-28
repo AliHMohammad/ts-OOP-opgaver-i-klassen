@@ -72,3 +72,9 @@ export interface RawResult {
     resultType: string;
     time: string;
 }
+
+
+
+export interface Render {
+    render(a: Member | Result): string
+}

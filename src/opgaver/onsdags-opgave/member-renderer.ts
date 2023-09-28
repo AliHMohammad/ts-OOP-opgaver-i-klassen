@@ -17,6 +17,7 @@ const memberRenderer = {
 
         return html;
     },
+
 };
 
 export { memberRenderer };

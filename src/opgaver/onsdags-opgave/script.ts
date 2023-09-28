@@ -2,6 +2,8 @@ import { initTabs } from "./tabs.js";
 import { Member, RawMember, RawResult, Result } from "./interfaces.js";
 import * as construct from "./factories.js";
 import * as listRendererConstruct from "./list-renderer.js"
+import { memberRenderer } from "./member-renderer.js";
+import { resultRenderer } from "./result-renderer.js";
 
 window.addEventListener("load", initApp);
 
@@ -28,52 +30,14 @@ async function initApp() {
 
     // showMembers(membersArr);
     const memberContainer = document.querySelector("#members tbody") as HTMLElement;
-    const listRenderer = listRendererConstruct.construct(membersArr, memberContainer)
-    listRenderer.render()
-    showResults(resultsArr);
-}
+    const memberRenderResult = listRendererConstruct.construct(membersArr, memberContainer, memberRenderer)
+    memberRenderResult.render();
 
-function showMembers(members: Member[]) {
-
-    for (const member of members) {
-
-        const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
-
-        const html = /*html*/ `
-        <tr>
-            <td>${member.name}</td>
-            <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
-            <td>${member.dateOfBirthToString}</td>
-            <td>${member.age}</td>
-            <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
-        </tr>
-        `;
-
-        document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
-    }
-}
-
-function showResults(results: Result[]) {
-    for (const result of results) {
-        showResult(result);
-    }
-}
-
-function showResult(result: Result) {
-
-
-    const html = /*html*/ `
-    <tr>
-        <td>${result.dateToString}</td>
-        <td>${result.member ? result.member.name : "Ukendt"}</td>
-        <td>${discipliner[`${result.discipline}`]}</td>
-        <td>${result.resultType === "competition" ? "Kompetitiv" : "Træning"}</td>
-        <td>${result.timeToString}</td>
-    </tr>
-    `;
-
-    document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
-
+    
+    // showResults(resultsArr);
+    const resultContainer = document.querySelector("#results tbody") as HTMLElement;
+    const resultRenderResult = listRendererConstruct.construct(resultsArr, resultContainer, resultRenderer);
+    resultRenderResult.render();
 }
 
 function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
@@ -118,4 +82,4 @@ function constructResults(rawResults: RawResult[]) {
     }
 }
 
-export { membersArr, resultsArr, getDisciplinesInDanish };
+export { membersArr, resultsArr, getDisciplinesInDanish, discipliner };
