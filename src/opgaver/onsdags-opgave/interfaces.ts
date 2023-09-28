@@ -15,8 +15,8 @@ export interface Member {
     get age(): number;
     set dateOfBirth(a: string);
     get dateOfBirthToString(): string;
-    get isActiveMember(): string;
-    get disciplines(): string;
+    get isActiveMember(): boolean;
+    get disciplines(): string[] | undefined;
 
     isJunior(): boolean;
     isSenior(): boolean;

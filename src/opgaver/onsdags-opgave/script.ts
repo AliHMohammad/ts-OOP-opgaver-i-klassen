@@ -4,6 +4,13 @@ import * as construct from "./factories.js";
 
 window.addEventListener("load", initApp);
 
+const discipliner: { [key: string]: string } = {
+    breaststroke: "Bryst",
+    backstroke: "Ryg",
+    freestyle: "Fristil",
+    butterfly: "Sommerfugl",
+};
+
 let membersArr: Member[] = [];
 let resultsArr: Result[] = [];
 
@@ -29,13 +36,17 @@ function showMembers(members: Member[]) {
 }
 
 function showMember(member: Member) {
+
+    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
+
+
     const html = /*html*/ `
     <tr>
         <td>${member.name}</td>
-        <td>${member.isActiveMember}</td>
+        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
         <td>${member.dateOfBirthToString}</td>
         <td>${member.age}</td>
-        <td>${member.disciplines}</td>
+        <td>${danskDiscipliner ? danskDiscipliner : "Ingen" }</td>
     </tr>
     `;
 
@@ -49,17 +60,34 @@ function showResults(results: Result[]) {
 }
 
 function showResult(result: Result) {
+
+
     const html = /*html*/ `
     <tr>
         <td>${result.dateToString}</td>
         <td>${result.member ? result.member.name : "Ukendt"}</td>
-        <td>${result.discipline}</td>
-        <td>${result.resultType}</td>
+        <td>${discipliner[`${result.discipline}`]}</td>
+        <td>${result.resultType === "competition" ? "Kompetitiv" : "Træning"}</td>
         <td>${result.timeToString}</td>
     </tr>
     `;
 
     document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
+
+}
+
+function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
+    const danskArr: string[] = [];
+
+    if (!disciplines) {
+        return null;
+    }
+
+    for (const discipline of disciplines) {
+        danskArr.push(discipline);
+    }
+
+    return danskArr.join(", ")
 }
 
 function sortResults() {

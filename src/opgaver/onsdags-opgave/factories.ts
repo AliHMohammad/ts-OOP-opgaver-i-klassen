@@ -45,22 +45,28 @@ function factoryMember(rawMember: RawMember): Member {
             return age;
         },
 
-        get isActiveMember(): string {
-            return this._isActiveMember === true ? "Ja" : "Nej";
+        get isActiveMember(): boolean {
+            return this._isActiveMember;
         },
 
-        get disciplines(): string {
-            let danskArr: string[] = [];
+        get disciplines(): string[] | undefined {
+            // let danskArr: string[] = [];
 
-            if (!this._disciplines) {
-                return "Ingen";
+            // if (!this._disciplines) {
+            //     return "Ingen";
+            // }
+
+            // for (const discipline of this._disciplines) {
+            //     danskArr.push(discipliner[`${discipline}`]);
+            // }
+
+            // return danskArr.join(", ");
+
+            if (this._disciplines) {
+                return this._disciplines
+            } else {
+                return undefined
             }
-
-            for (const discipline of this._disciplines) {
-                danskArr.push(discipliner[`${discipline}`]);
-            }
-
-            return danskArr.join(", ");
         },
 
         isJunior(): boolean {
@@ -158,11 +164,11 @@ function factoryResult(rawResult: RawResult): Result {
         },
 
         get discipline(): string {
-            return discipliner[`${this._discipline}`];
+            return this._discipline;
         },
 
         get resultType(): string {
-            return this._resultType === "competition" ? "Kompetitiv" : "Træning";
+            return this._resultType;
         },
 
         isTraining(): boolean {

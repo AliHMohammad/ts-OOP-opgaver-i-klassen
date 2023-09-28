@@ -37,17 +37,23 @@ function factoryMember(rawMember) {
             return age;
         },
         get isActiveMember() {
-            return this._isActiveMember === true ? "Ja" : "Nej";
+            return this._isActiveMember;
         },
         get disciplines() {
-            let danskArr = [];
-            if (!this._disciplines) {
-                return "Ingen";
+            // let danskArr: string[] = [];
+            // if (!this._disciplines) {
+            //     return "Ingen";
+            // }
+            // for (const discipline of this._disciplines) {
+            //     danskArr.push(discipliner[`${discipline}`]);
+            // }
+            // return danskArr.join(", ");
+            if (this._disciplines) {
+                return this._disciplines;
             }
-            for (const discipline of this._disciplines) {
-                danskArr.push(discipliner[`${discipline}`]);
+            else {
+                return undefined;
             }
-            return danskArr.join(", ");
         },
         isJunior() {
             return this.age < 18 ? true : false;
@@ -132,10 +138,10 @@ function factoryResult(rawResult) {
             return date;
         },
         get discipline() {
-            return discipliner[`${this._discipline}`];
+            return this._discipline;
         },
         get resultType() {
-            return this._resultType === "competition" ? "Kompetitiv" : "Træning";
+            return this._resultType;
         },
         isTraining() {
             return this._resultType === "training" ? true : false;

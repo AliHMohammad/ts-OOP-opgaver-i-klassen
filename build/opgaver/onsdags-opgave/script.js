@@ -1,6 +1,12 @@
 import { initTabs } from "./tabs.js";
 import * as construct from "./factories.js";
 window.addEventListener("load", initApp);
+const discipliner = {
+    breaststroke: "Bryst",
+    backstroke: "Ryg",
+    freestyle: "Fristil",
+    butterfly: "Sommerfugl",
+};
 let membersArr = [];
 let resultsArr = [];
 async function initApp() {
@@ -20,13 +26,14 @@ function showMembers(members) {
     }
 }
 function showMember(member) {
+    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
     const html = /*html*/ `
     <tr>
         <td>${member.name}</td>
-        <td>${member.isActiveMember}</td>
+        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
         <td>${member.dateOfBirthToString}</td>
         <td>${member.age}</td>
-        <td>${member.disciplines}</td>
+        <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
     </tr>
     `;
     document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
@@ -41,12 +48,22 @@ function showResult(result) {
     <tr>
         <td>${result.dateToString}</td>
         <td>${result.member ? result.member.name : "Ukendt"}</td>
-        <td>${result.discipline}</td>
-        <td>${result.resultType}</td>
+        <td>${discipliner[`${result.discipline}`]}</td>
+        <td>${result.resultType === "competition" ? "Kompetitiv" : "Træning"}</td>
         <td>${result.timeToString}</td>
     </tr>
     `;
     document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
+}
+function getDisciplinesInDanish(disciplines) {
+    const danskArr = [];
+    if (!disciplines) {
+        return null;
+    }
+    for (const discipline of disciplines) {
+        danskArr.push(discipline);
+    }
+    return danskArr.join(", ");
 }
 function sortResults() {
     resultsArr.sort((a, b) => a.time - b.time);
