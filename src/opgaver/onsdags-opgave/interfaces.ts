@@ -94,6 +94,7 @@ export interface ConstructInter {
     render(): void
     sort(sortBy: string, sortDir: string): void;
     clear(): void;
+    filter(): void;
 }
 
 

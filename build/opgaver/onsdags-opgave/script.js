@@ -20,19 +20,14 @@ async function initApp() {
     const rawResultsArr = await getResults();
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
-    // sortMembers();
-    // sortResults();
-    // showMembers(membersArr);
     const memberContainer = document.querySelector("#members tbody");
     memberRenderResult = listRendererConstruct.construct(membersArr, memberContainer, memberRenderer);
     memberRenderResult.render();
-    // showResults(resultsArr);
     const resultContainer = document.querySelector("#results tbody");
     resultRenderResult = listRendererConstruct.construct(resultsArr, resultContainer, resultRenderer);
     resultRenderResult.render();
     updateSortValue();
-    document.querySelector("#sort")?.addEventListener("change", updateSortValue);
-    document.querySelector("#order-by")?.addEventListener("change", updateSortValue);
+    initiateEventListeners();
 }
 function updateSortValue() {
     const sortElement = document.querySelector("#sort");
@@ -40,6 +35,7 @@ function updateSortValue() {
     const sortValue = sortElement.value;
     const orderValue = orderByElement.value;
     memberRenderResult.sort(sortValue, orderValue);
+    //? Har ikke taget hensyn til results når det gælder sortering og filtrering pga. den måde HTML'en er opbygget på med tabs.
     // resultRenderResult.sort(sortValue, orderValue);
 }
 function getDisciplinesInDanish(disciplines) {
@@ -51,12 +47,6 @@ function getDisciplinesInDanish(disciplines) {
         danskArr.push(discipline);
     }
     return danskArr.join(", ");
-}
-function sortResults() {
-    resultsArr.sort((a, b) => a.time - b.time);
-}
-function sortMembers() {
-    membersArr.sort((a, b) => a.name.localeCompare(b.name));
 }
 async function getMembers() {
     return await (await fetch("../../../data/members.json")).json();
@@ -73,5 +63,10 @@ function constructResults(rawResults) {
     for (const rawResult of rawResults) {
         resultsArr.push(construct.factoryResult(rawResult));
     }
+}
+function initiateEventListeners() {
+    document.querySelector("#sort")?.addEventListener("change", updateSortValue);
+    document.querySelector("#order-by")?.addEventListener("change", updateSortValue);
+    document.querySelector("#filter")?.addEventListener("change", updateSortValue);
 }
 export { membersArr, resultsArr, getDisciplinesInDanish, discipliner };

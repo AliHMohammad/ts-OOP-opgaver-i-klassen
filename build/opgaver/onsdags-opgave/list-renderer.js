@@ -8,6 +8,7 @@ function construct(list, container, itemRenderer) {
                 newObject.item = item;
                 return newObject;
             });
+            this.filter();
             for (const item of this.newObjectArr) {
                 const html = item.render();
                 container.insertAdjacentHTML("beforeend", html);
@@ -32,6 +33,16 @@ function construct(list, container, itemRenderer) {
             }
             this.clear();
             this.render();
+        },
+        filter() {
+            const filterElement = document.querySelector("#filter");
+            const value = filterElement.value;
+            if (value === "active") {
+                this.newObjectArr = this.newObjectArr.filter((renderer) => renderer.item.isActiveMember === true);
+            }
+            else if (value === "inactive") {
+                this.newObjectArr = this.newObjectArr.filter((renderer) => renderer.item.isActiveMember === false);
+            }
         },
         clear() {
             this.newObjectArr = [];

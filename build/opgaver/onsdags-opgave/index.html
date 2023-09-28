@@ -11,16 +11,24 @@
   <h1>Medlemmer og Resultater</h1>
 
   <div id="sort-div">
+    <label for="sort">Sort: </label>
     <select name="sort" id="sort">
       <option value="name">Name</option>
       <option value="age">Age</option>
     </select>
 
-    <select name="order-by" id="order-by">
+    <select style="margin-right: 1rem;" name="order-by" id="order-by">
       <option value="ASC">ASC</option>
       <option value="DESC">DESC</option>
     </select>
+
+    <label for="filter">Filter: </label>
+    <select name="filter" id="filter">
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
   </div>
+
 
   <div id="tabs">
     

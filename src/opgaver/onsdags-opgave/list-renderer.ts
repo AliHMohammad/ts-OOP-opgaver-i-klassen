@@ -9,11 +9,14 @@ function construct(list: Member[] | Result[], container: HTMLElement, itemRender
         newObjectArr: [],
 
         render() {
+
             this.newObjectArr = list.map((item) => {
                 const newObject: Render = Object.create(itemRenderer);
                 newObject.item = item;
                 return newObject;
             });
+
+            this.filter();
 
             for (const item of this.newObjectArr) {
 
@@ -45,6 +48,17 @@ function construct(list: Member[] | Result[], container: HTMLElement, itemRender
 
             this.clear()
             this.render()
+        },
+
+        filter() {
+            const filterElement = document.querySelector("#filter") as HTMLSelectElement;
+            const value = filterElement.value;
+
+            if (value === "active") {
+                this.newObjectArr = this.newObjectArr.filter((renderer) => renderer.item.isActiveMember === true);
+            } else if (value === "inactive") {
+                this.newObjectArr = this.newObjectArr.filter((renderer) => renderer.item.isActiveMember === false);
+            }
         },
 
         clear() {
