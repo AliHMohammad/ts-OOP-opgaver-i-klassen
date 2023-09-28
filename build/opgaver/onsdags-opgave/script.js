@@ -24,7 +24,7 @@ function showMember(member) {
     <tr>
         <td>${member.name}</td>
         <td>${member.isActiveMember}</td>
-        <td>${member.dateOfBirth}</td>
+        <td>${member.dateOfBirthToString}</td>
         <td>${member.age}</td>
         <td>${member.disciplines}</td>
     </tr>
@@ -39,17 +39,17 @@ function showResults(results) {
 function showResult(result) {
     const html = /*html*/ `
     <tr>
-        <td>${result.date}</td>
+        <td>${result.dateToString}</td>
         <td>${result.member ? result.member.name : "Ukendt"}</td>
         <td>${result.discipline}</td>
         <td>${result.resultType}</td>
-        <td>${result.time}</td>
+        <td>${result.timeToString}</td>
     </tr>
     `;
     document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
 }
 function sortResults() {
-    resultsArr.sort((a, b) => a.timeMiliSeconds - b.timeMiliSeconds);
+    resultsArr.sort((a, b) => a.time - b.time);
 }
 function sortMembers() {
     membersArr.sort((a, b) => a.name.localeCompare(b.name));

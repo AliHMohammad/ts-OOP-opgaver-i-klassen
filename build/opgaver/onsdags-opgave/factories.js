@@ -3,7 +3,7 @@ const discipliner = {
     breaststroke: "Bryst",
     backstroke: "Ryg",
     freestyle: "Fristil",
-    butterfly: "Sommerfugl"
+    butterfly: "Sommerfugl",
 };
 function factoryMember(rawMember) {
     const newMember = {
@@ -21,7 +21,7 @@ function factoryMember(rawMember) {
         set dateOfBirth(newDate) {
             this._dateOfBirth = new Date(newDate);
         },
-        get dateOfBirth() {
+        get dateOfBirthToString() {
             const dateOfBirth = new Intl.DateTimeFormat("da-DK", { year: "numeric", month: "long", day: "numeric" }).format(this._dateOfBirth);
             return dateOfBirth;
         },
@@ -54,14 +54,14 @@ function factoryMember(rawMember) {
         },
         isSenior() {
             return this.age >= 18 ? true : false;
-        }
+        },
     };
     Object.defineProperty(newMember, "_id", {
         writable: false,
-        configurable: false
+        configurable: false,
     });
     Object.defineProperty(newMember, "_name", {
-        enumerable: false
+        enumerable: false,
     });
     Object.defineProperty(newMember, "_image", {
         enumerable: false,
@@ -80,7 +80,7 @@ function factoryResult(rawResult) {
         _resultType: rawResult.resultType,
         _time: undefined,
         _member: undefined,
-        set time(newTime) {
+        set timeToString(newTime) {
             try {
                 if (!newTime.includes(":") || !newTime.includes(".")) {
                     throw new Error("Wrong format");
@@ -94,7 +94,7 @@ function factoryResult(rawResult) {
                 console.log(error);
             }
         },
-        get time() {
+        get timeToString() {
             if (this._time) {
                 const totalSeconds = Math.floor(this._time / 1000);
                 const minutes = Math.floor(totalSeconds / 60);
@@ -106,7 +106,7 @@ function factoryResult(rawResult) {
                 return "time on object is undefined.";
             }
         },
-        get timeMiliSeconds() {
+        get time() {
             if (this._time) {
                 return this._time;
             }
@@ -127,7 +127,7 @@ function factoryResult(rawResult) {
                 this._member = memberFound;
             }
         },
-        get date() {
+        get dateToString() {
             const date = new Intl.DateTimeFormat("da-DK", { year: "numeric", month: "long", day: "numeric" }).format(this._date);
             return date;
         },
@@ -142,19 +142,19 @@ function factoryResult(rawResult) {
         },
         isCompetition() {
             return this._resultType === "competition" ? true : false;
-        }
+        },
     };
     Object.defineProperty(newResult, "_id", {
         writable: false,
         configurable: false,
     });
     Object.defineProperty(newResult, "isTraining", {
-        enumerable: false
+        enumerable: false,
     });
     Object.defineProperty(newResult, "isCompetition", {
         enumerable: false,
     });
-    newResult.time = rawResult.time;
+    newResult.timeToString = rawResult.time;
     newResult.member = rawResult.memberId;
     return newResult;
 }

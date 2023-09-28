@@ -1,11 +1,11 @@
 import { initTabs } from "./tabs.js";
 import { Member, RawMember, RawResult, Result } from "./interfaces.js";
-import * as construct from "./factories.js"
+import * as construct from "./factories.js";
 
 window.addEventListener("load", initApp);
 
-let membersArr: Member[] = []
-let resultsArr: Result[] = []
+let membersArr: Member[] = [];
+let resultsArr: Result[] = [];
 
 async function initApp() {
     initTabs();
@@ -15,17 +15,16 @@ async function initApp() {
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
 
-    sortMembers()
-    sortResults()
+    sortMembers();
+    sortResults();
 
-    showMembers(membersArr)
-    showResults(resultsArr)
+    showMembers(membersArr);
+    showResults(resultsArr);
 }
 
 function showMembers(members: Member[]) {
-    
     for (const member of members) {
-        showMember(member)
+        showMember(member);
     }
 }
 
@@ -34,7 +33,7 @@ function showMember(member: Member) {
     <tr>
         <td>${member.name}</td>
         <td>${member.isActiveMember}</td>
-        <td>${member.dateOfBirth}</td>
+        <td>${member.dateOfBirthToString}</td>
         <td>${member.age}</td>
         <td>${member.disciplines}</td>
     </tr>
@@ -44,7 +43,6 @@ function showMember(member: Member) {
 }
 
 function showResults(results: Result[]) {
-
     for (const result of results) {
         showResult(result);
     }
@@ -53,11 +51,11 @@ function showResults(results: Result[]) {
 function showResult(result: Result) {
     const html = /*html*/ `
     <tr>
-        <td>${result.date}</td>
+        <td>${result.dateToString}</td>
         <td>${result.member ? result.member.name : "Ukendt"}</td>
         <td>${result.discipline}</td>
         <td>${result.resultType}</td>
-        <td>${result.time}</td>
+        <td>${result.timeToString}</td>
     </tr>
     `;
 
@@ -65,24 +63,24 @@ function showResult(result: Result) {
 }
 
 function sortResults() {
-    resultsArr.sort((a: Result, b: Result) => a.timeMiliSeconds - b.timeMiliSeconds);
+    resultsArr.sort((a: Result, b: Result) => a.time - b.time);
 }
 
 function sortMembers() {
-    membersArr.sort((a: Member, b: Member) => a.name.localeCompare(b.name))
+    membersArr.sort((a: Member, b: Member) => a.name.localeCompare(b.name));
 }
 
 async function getMembers(): Promise<RawMember[]> {
     return await (await fetch("../../../data/members.json")).json();
 }
 
-async function getResults(): Promise<RawResult[]>{
+async function getResults(): Promise<RawResult[]> {
     return await (await fetch("../../../data/results.json")).json();
 }
 
 function constructMembers(rawMembers: RawMember[]) {
     for (const rawMember of rawMembers) {
-        membersArr.push(construct.factoryMember(rawMember))
+        membersArr.push(construct.factoryMember(rawMember));
     }
 }
 
@@ -92,6 +90,4 @@ function constructResults(rawResults: RawResult[]) {
     }
 }
 
-
-
-export {membersArr, resultsArr}
+export { membersArr, resultsArr };

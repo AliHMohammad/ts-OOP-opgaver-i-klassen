@@ -1,4 +1,3 @@
-
 export interface Member {
     _id: string;
     _dateOfBirth: Date;
@@ -12,11 +11,10 @@ export interface Member {
     _isActiveMember: boolean;
     _isCompetitive: boolean;
 
-
     get name(): string;
     get age(): number;
     set dateOfBirth(a: string);
-    get dateOfBirth(): string;
+    get dateOfBirthToString(): string;
     get isActiveMember(): string;
     get disciplines(): string;
 
@@ -50,16 +48,14 @@ export interface Result {
     _time: number | undefined;
     _member: Member | undefined;
 
-
-    set time(a: string | number);
-    get time(): string;
-    get timeMiliSeconds(): number;
+    set timeToString(a: string | number);
+    get timeToString(): string;
+    get time(): number;
     get member(): Member | undefined;
     set member(memberId: string);
-    get date(): string;
+    get dateToString(): string;
     get discipline(): string;
     get resultType(): string;
-
 
     isTraining(): boolean;
     isCompetition(): boolean;

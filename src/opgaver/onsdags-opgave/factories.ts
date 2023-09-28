@@ -1,12 +1,12 @@
 import { Member, Result, RawMember, RawResult } from "./interfaces";
 import { membersArr } from "./script.js";
 
-const discipliner: {[key: string]: string} = {
+const discipliner: { [key: string]: string } = {
     breaststroke: "Bryst",
     backstroke: "Ryg",
     freestyle: "Fristil",
-    butterfly: "Sommerfugl"
-}
+    butterfly: "Sommerfugl",
+};
 
 function factoryMember(rawMember: RawMember): Member {
     const newMember: Member = {
@@ -26,13 +26,13 @@ function factoryMember(rawMember: RawMember): Member {
             this._dateOfBirth = new Date(newDate);
         },
 
-        get dateOfBirth(): string {
+        get dateOfBirthToString(): string {
             const dateOfBirth = new Intl.DateTimeFormat("da-DK", { year: "numeric", month: "long", day: "numeric" }).format(this._dateOfBirth);
-            return dateOfBirth
+            return dateOfBirth;
         },
 
         get name(): string {
-            return `${this._firstName} ${this._lastName}`
+            return `${this._firstName} ${this._lastName}`;
         },
 
         get age(): number {
@@ -46,21 +46,21 @@ function factoryMember(rawMember: RawMember): Member {
         },
 
         get isActiveMember(): string {
-            return this._isActiveMember === true ? "Ja" : "Nej"
+            return this._isActiveMember === true ? "Ja" : "Nej";
         },
 
         get disciplines(): string {
             let danskArr: string[] = [];
 
             if (!this._disciplines) {
-                return "Ingen"
+                return "Ingen";
             }
 
             for (const discipline of this._disciplines) {
-                danskArr.push(discipliner[`${discipline}`])
+                danskArr.push(discipliner[`${discipline}`]);
             }
-                
-            return danskArr.join(", ")
+
+            return danskArr.join(", ");
         },
 
         isJunior(): boolean {
@@ -69,22 +69,21 @@ function factoryMember(rawMember: RawMember): Member {
 
         isSenior(): boolean {
             return this.age >= 18 ? true : false;
-        }
-    }
+        },
+    };
 
     Object.defineProperty(newMember, "_id", {
         writable: false,
-        configurable: false
-    })
+        configurable: false,
+    });
 
     Object.defineProperty(newMember, "_name", {
-        enumerable: false
-    })
+        enumerable: false,
+    });
 
     Object.defineProperty(newMember, "_image", {
         enumerable: false,
     });
-
 
     return newMember;
 }
@@ -92,7 +91,7 @@ function factoryMember(rawMember: RawMember): Member {
 function factoryResult(rawResult: RawResult): Result {
     const newResult: Result = {
         _id: rawResult.id,
-        _memberId: rawResult.memberId, 
+        _memberId: rawResult.memberId,
         _competitionLocation: rawResult.competitionLocation,
         _competitionName: rawResult.competitionName,
         _competitionPlacement: rawResult.competitionPlacement,
@@ -102,8 +101,7 @@ function factoryResult(rawResult: RawResult): Result {
         _time: undefined,
         _member: undefined,
 
-
-        set time(newTime: string) {
+        set timeToString(newTime: string) {
             try {
                 if (!newTime.includes(":") || !newTime.includes(".")) {
                     throw new Error("Wrong format");
@@ -113,50 +111,48 @@ function factoryResult(rawResult: RawResult): Result {
                 const [seconds, milliSeconds] = secondsAndMiliSec.split(".");
                 const time = Number(minutes) * 60000 + Number(seconds) * 1000 + Number(milliSeconds);
                 this._time = time;
-
             } catch (error) {
                 console.log(error);
             }
         },
 
-        get time(): string {
+        get timeToString(): string {
             if (this._time) {
                 const totalSeconds = Math.floor(this._time / 1000);
                 const minutes = Math.floor(totalSeconds / 60);
                 const seconds = totalSeconds % 60;
                 const millisecondsPart = (this._time % 1000).toString().padStart(3, "0");
-                
+
                 return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${millisecondsPart}`;
             } else {
-                return "time on object is undefined."
+                return "time on object is undefined.";
             }
-
         },
 
-        get timeMiliSeconds(): number {
+        get time(): number {
             if (this._time) {
                 return this._time;
             } else {
-                return 0
+                return 0;
             }
         },
 
         get member(): Member | undefined {
-            return this._member
+            return this._member;
         },
 
         set member(memberId: string) {
-            const memberFound = membersArr.find((member) => member._id === memberId); 
+            const memberFound = membersArr.find((member) => member._id === memberId);
 
             if (!memberFound) {
                 console.error("Error at set member(). Could not attach member");
-                this._member = undefined
+                this._member = undefined;
             } else {
                 this._member = memberFound;
             }
         },
 
-        get date(): string {
+        get dateToString(): string {
             const date = new Intl.DateTimeFormat("da-DK", { year: "numeric", month: "long", day: "numeric" }).format(this._date);
             return date;
         },
@@ -166,9 +162,8 @@ function factoryResult(rawResult: RawResult): Result {
         },
 
         get resultType(): string {
-            return this._resultType === "competition" ? "Kompetitiv" : "Træning"
+            return this._resultType === "competition" ? "Kompetitiv" : "Træning";
         },
-
 
         isTraining(): boolean {
             return this._resultType === "training" ? true : false;
@@ -176,8 +171,8 @@ function factoryResult(rawResult: RawResult): Result {
 
         isCompetition(): boolean {
             return this._resultType === "competition" ? true : false;
-        }
-    }
+        },
+    };
 
     Object.defineProperty(newResult, "_id", {
         writable: false,
@@ -185,19 +180,17 @@ function factoryResult(rawResult: RawResult): Result {
     });
 
     Object.defineProperty(newResult, "isTraining", {
-        enumerable: false
+        enumerable: false,
     });
 
     Object.defineProperty(newResult, "isCompetition", {
         enumerable: false,
     });
 
-    newResult.time = rawResult.time;
+    newResult.timeToString = rawResult.time;
     newResult.member = rawResult.memberId;
 
     return newResult;
 }
 
-
-
-export {factoryMember, factoryResult}
+export { factoryMember, factoryResult };
