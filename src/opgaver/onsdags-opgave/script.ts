@@ -1,6 +1,7 @@
 import { initTabs } from "./tabs.js";
 import { Member, RawMember, RawResult, Result } from "./interfaces.js";
 import * as construct from "./factories.js";
+import * as listRendererConstruct from "./list-renderer.js"
 
 window.addEventListener("load", initApp);
 
@@ -25,32 +26,31 @@ async function initApp() {
     sortMembers();
     sortResults();
 
-    showMembers(membersArr);
+    // showMembers(membersArr);
+    const memberContainer = document.querySelector("#members tbody") as HTMLElement;
+    const listRenderer = listRendererConstruct.construct(membersArr, memberContainer)
+    listRenderer.render()
     showResults(resultsArr);
 }
 
 function showMembers(members: Member[]) {
+
     for (const member of members) {
-        showMember(member);
+
+        const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
+
+        const html = /*html*/ `
+        <tr>
+            <td>${member.name}</td>
+            <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
+            <td>${member.dateOfBirthToString}</td>
+            <td>${member.age}</td>
+            <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
+        </tr>
+        `;
+
+        document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
     }
-}
-
-function showMember(member: Member) {
-
-    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
-
-
-    const html = /*html*/ `
-    <tr>
-        <td>${member.name}</td>
-        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
-        <td>${member.dateOfBirthToString}</td>
-        <td>${member.age}</td>
-        <td>${danskDiscipliner ? danskDiscipliner : "Ingen" }</td>
-    </tr>
-    `;
-
-    document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
 }
 
 function showResults(results: Result[]) {
@@ -118,4 +118,4 @@ function constructResults(rawResults: RawResult[]) {
     }
 }
 
-export { membersArr, resultsArr };
+export { membersArr, resultsArr, getDisciplinesInDanish };

@@ -1,5 +1,6 @@
 import { initTabs } from "./tabs.js";
 import * as construct from "./factories.js";
+import * as listRendererConstruct from "./list-renderer.js";
 window.addEventListener("load", initApp);
 const discipliner = {
     breaststroke: "Bryst",
@@ -17,26 +18,26 @@ async function initApp() {
     constructResults(rawResultsArr);
     sortMembers();
     sortResults();
-    showMembers(membersArr);
+    // showMembers(membersArr);
+    const memberContainer = document.querySelector("#members tbody");
+    const listRenderer = listRendererConstruct.construct(membersArr, memberContainer);
+    listRenderer.render();
     showResults(resultsArr);
 }
 function showMembers(members) {
     for (const member of members) {
-        showMember(member);
+        const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
+        const html = /*html*/ `
+        <tr>
+            <td>${member.name}</td>
+            <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
+            <td>${member.dateOfBirthToString}</td>
+            <td>${member.age}</td>
+            <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
+        </tr>
+        `;
+        document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
     }
-}
-function showMember(member) {
-    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
-    const html = /*html*/ `
-    <tr>
-        <td>${member.name}</td>
-        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
-        <td>${member.dateOfBirthToString}</td>
-        <td>${member.age}</td>
-        <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
-    </tr>
-    `;
-    document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
 }
 function showResults(results) {
     for (const result of results) {
@@ -87,4 +88,4 @@ function constructResults(rawResults) {
         resultsArr.push(construct.factoryResult(rawResult));
     }
 }
-export { membersArr, resultsArr };
+export { membersArr, resultsArr, getDisciplinesInDanish };
