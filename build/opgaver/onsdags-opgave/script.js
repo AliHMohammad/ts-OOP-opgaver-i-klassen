@@ -32,7 +32,7 @@ async function initApp() {
 function getDisciplinesInDanish(disciplines) {
     const danskArr = [];
     if (!disciplines) {
-        return null;
+        return undefined;
     }
     for (const discipline of disciplines) {
         danskArr.push(discipline);

@@ -20,6 +20,8 @@ export interface Member {
 
     isJunior(): boolean;
     isSenior(): boolean;
+
+    
 }
 
 export interface RawMember {
@@ -59,6 +61,8 @@ export interface Result {
 
     isTraining(): boolean;
     isCompetition(): boolean;
+
+    
 }
 
 export interface RawResult {
@@ -76,5 +80,14 @@ export interface RawResult {
 
 
 export interface Render {
-    render(a: Member | Result): string
+    render(): string;
+    postRender?(element: HTMLElement): any
+    _item: Member | Result | undefined;
+    
+    set item(a: Member | Result);
+    get item(): Member | Result | undefined;
+    
 }
+
+
+

@@ -40,11 +40,11 @@ async function initApp() {
     resultRenderResult.render();
 }
 
-function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
+function getDisciplinesInDanish(disciplines: string[] | undefined): string | undefined {
     const danskArr: string[] = [];
 
     if (!disciplines) {
-        return null;
+        return undefined;
     }
 
     for (const discipline of disciplines) {
