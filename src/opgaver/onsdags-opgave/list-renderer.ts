@@ -1,35 +1,57 @@
-import { Member, Render, Result } from "./interfaces";
+import { Member, Render, Result, ConstructInter } from "./interfaces";
 
 
 
 
 //TODO: Ændre list datatype til noget klogere
 function construct(list: Member[] | Result[], container: HTMLElement, itemRenderer: Render ) {
-    const listRenderer = {
+    const listRenderer: ConstructInter = {
+        newObjectArr: [],
+
         render() {
-            const newObjectArr: Render[] = list.map((item) => {
+            this.newObjectArr = list.map((item) => {
                 const newObject: Render = Object.create(itemRenderer);
                 newObject.item = item;
                 return newObject;
             });
 
-            // for (const item of list) {
-            //     const html = itemRenderer.render(item)
-            //     container.insertAdjacentHTML("beforeend", html);
-            // }
+            for (const item of this.newObjectArr) {
 
-            for (const item of newObjectArr) {
                 const html = item.render();
                 container.insertAdjacentHTML("beforeend", html);
-            
-                
 
                 if (item.postRender && container.lastElementChild) {
-                    // @ts-ignore
                     item.postRender(container.lastElementChild);
                 }
             }
         },
+
+        sort(sortBy: string, sortDir: string) {
+            console.log(sortDir);
+            console.log(sortBy);
+            
+
+            if (sortBy === "age") {
+                // @ts-ignore
+                list.sort((a, b) => a.age - b.age);
+            } else if (sortBy === "name") {
+                // @ts-ignore
+                list.sort((b, a) => a.name.localeCompare(b.name));
+            }
+
+            if (sortDir === "ASC") {
+                list.reverse();
+            }
+
+            this.clear()
+            this.render()
+        },
+
+        clear() {
+            this.newObjectArr = [];
+            document.querySelector("#members tbody")!.innerHTML = "";
+            document.querySelector("#results tbody")!.innerHTML = "";
+        }
     };
 
     return listRenderer;

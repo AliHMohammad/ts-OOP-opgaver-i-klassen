@@ -1,5 +1,5 @@
 import { initTabs } from "./tabs.js";
-import { Member, RawMember, RawResult, Result } from "./interfaces.js";
+import { ConstructInter, Member, RawMember, RawResult, Result } from "./interfaces.js";
 import * as construct from "./factories.js";
 import * as listRendererConstruct from "./list-renderer.js"
 import { memberRenderer } from "./member-renderer.js";
@@ -17,6 +17,9 @@ const discipliner: { [key: string]: string } = {
 let membersArr: Member[] = [];
 let resultsArr: Result[] = [];
 
+let memberRenderResult: ConstructInter;
+let resultRenderResult: ConstructInter;
+
 async function initApp() {
     initTabs();
     const rawMembersArr: RawMember[] = await getMembers();
@@ -25,19 +28,35 @@ async function initApp() {
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
 
-    sortMembers();
-    sortResults();
+    // sortMembers();
+    // sortResults();
 
     // showMembers(membersArr);
     const memberContainer = document.querySelector("#members tbody") as HTMLElement;
-    const memberRenderResult = listRendererConstruct.construct(membersArr, memberContainer, memberRenderer)
+    memberRenderResult = listRendererConstruct.construct(membersArr, memberContainer, memberRenderer)
     memberRenderResult.render();
 
     
     // showResults(resultsArr);
     const resultContainer = document.querySelector("#results tbody") as HTMLElement;
-    const resultRenderResult = listRendererConstruct.construct(resultsArr, resultContainer, resultRenderer);
+    resultRenderResult = listRendererConstruct.construct(resultsArr, resultContainer, resultRenderer);
     resultRenderResult.render();
+
+    updateSortValue();
+
+
+    document.querySelector("#sort")?.addEventListener("change", updateSortValue);
+    document.querySelector("#order-by")?.addEventListener("change", updateSortValue);
+}
+
+function updateSortValue() {
+    const sortElement = document.querySelector("#sort") as HTMLSelectElement;
+    const orderByElement = document.querySelector("#order-by") as HTMLSelectElement;
+    const sortValue = sortElement.value;
+    const orderValue = orderByElement.value; 
+
+    memberRenderResult.sort(sortValue, orderValue);
+    // resultRenderResult.sort(sortValue, orderValue);
 }
 
 function getDisciplinesInDanish(disciplines: string[] | undefined): string | undefined {

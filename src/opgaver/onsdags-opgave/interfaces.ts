@@ -89,5 +89,12 @@ export interface Render {
     
 }
 
+export interface ConstructInter {
+    newObjectArr: any[]
+    render(): void
+    sort(sortBy: string, sortDir: string): void;
+    clear(): void;
+}
+
 
 

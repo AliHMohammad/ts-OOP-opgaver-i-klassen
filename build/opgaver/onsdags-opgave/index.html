@@ -10,9 +10,25 @@
 <body>
   <h1>Medlemmer og Resultater</h1>
 
+  <div id="sort-div">
+    <select name="sort" id="sort">
+      <option value="name">Name</option>
+      <option value="age">Age</option>
+    </select>
+
+    <select name="order-by" id="order-by">
+      <option value="ASC">ASC</option>
+      <option value="DESC">DESC</option>
+    </select>
+  </div>
+
   <div id="tabs">
+    
     <h2 data-tab-show="members">Medlemmer</h2>
     <h2 data-tab-show="results">Resultater</h2>
+    
+    
+    
     <table id="members" class="hide">
       <thead>
         <tr>

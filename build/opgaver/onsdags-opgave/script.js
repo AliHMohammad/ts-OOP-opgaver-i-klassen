@@ -12,22 +12,35 @@ const discipliner = {
 };
 let membersArr = [];
 let resultsArr = [];
+let memberRenderResult;
+let resultRenderResult;
 async function initApp() {
     initTabs();
     const rawMembersArr = await getMembers();
     const rawResultsArr = await getResults();
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
-    sortMembers();
-    sortResults();
+    // sortMembers();
+    // sortResults();
     // showMembers(membersArr);
     const memberContainer = document.querySelector("#members tbody");
-    const memberRenderResult = listRendererConstruct.construct(membersArr, memberContainer, memberRenderer);
+    memberRenderResult = listRendererConstruct.construct(membersArr, memberContainer, memberRenderer);
     memberRenderResult.render();
     // showResults(resultsArr);
     const resultContainer = document.querySelector("#results tbody");
-    const resultRenderResult = listRendererConstruct.construct(resultsArr, resultContainer, resultRenderer);
+    resultRenderResult = listRendererConstruct.construct(resultsArr, resultContainer, resultRenderer);
     resultRenderResult.render();
+    updateSortValue();
+    document.querySelector("#sort")?.addEventListener("change", updateSortValue);
+    document.querySelector("#order-by")?.addEventListener("change", updateSortValue);
+}
+function updateSortValue() {
+    const sortElement = document.querySelector("#sort");
+    const orderByElement = document.querySelector("#order-by");
+    const sortValue = sortElement.value;
+    const orderValue = orderByElement.value;
+    memberRenderResult.sort(sortValue, orderValue);
+    // resultRenderResult.sort(sortValue, orderValue);
 }
 function getDisciplinesInDanish(disciplines) {
     const danskArr = [];
