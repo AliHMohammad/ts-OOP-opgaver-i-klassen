@@ -12,7 +12,7 @@ function construct(list: Member[] | Result[], container: HTMLElement, itemRender
 
             this.newObjectArr = list.map((item) => {
                 const newObject: Render = Object.create(itemRenderer);
-                newObject.item = item;
+                newObject._item = item;
                 return newObject;
             });
 

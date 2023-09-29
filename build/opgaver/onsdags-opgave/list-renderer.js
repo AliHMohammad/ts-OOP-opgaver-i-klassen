@@ -5,7 +5,7 @@ function construct(list, container, itemRenderer) {
         render() {
             this.newObjectArr = list.map((item) => {
                 const newObject = Object.create(itemRenderer);
-                newObject.item = item;
+                newObject._item = item;
                 return newObject;
             });
             this.filter();
