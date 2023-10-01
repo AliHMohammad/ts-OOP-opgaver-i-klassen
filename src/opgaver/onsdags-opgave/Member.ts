@@ -1,5 +1,4 @@
 
-
 export class Member {
     _id: string;
     _firstName: string;
@@ -67,18 +66,6 @@ export class Member {
     }
 
     get disciplines(): string[] | undefined {
-        // let danskArr: string[] = [];
-
-        // if (!this._disciplines) {
-        //     return "Ingen";
-        // }
-
-        // for (const discipline of this._disciplines) {
-        //     danskArr.push(discipliner[`${discipline}`]);
-        // }
-
-        // return danskArr.join(", ");
-
         if (this._disciplines) {
             return this._disciplines;
         } else {

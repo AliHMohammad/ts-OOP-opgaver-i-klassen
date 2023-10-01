@@ -1,7 +1,7 @@
 import { initTabs } from "./tabs.js";
-import { createMemberArr, createMemberRenderArr } from "./Member-controller.js";
+import { createMemberArr, createMemberRenderArr, getMembers } from "./Member-controller.js";
 import { sortFilterMembers } from "./Member-view.js";
-import { createResultArr, createResultRenderArr } from "./Result-controller.js";
+import { createResultArr, createResultRenderArr, getResults } from "./Result-controller.js";
 import { sortFilterResults } from "./Result-view.js";
 window.addEventListener("load", initApp);
 const membersArr = [];
@@ -29,11 +29,5 @@ function initiateEventListeners() {
     document.querySelector("#filter-results")?.addEventListener("change", sortFilterResults);
     document.querySelector("#sort-results")?.addEventListener("change", sortFilterResults);
     document.querySelector("#sort-order-results")?.addEventListener("change", sortFilterResults);
-}
-async function getMembers() {
-    return await (await fetch("../../../data/members.json")).json();
-}
-async function getResults() {
-    return await (await fetch("../../../data/results.json")).json();
 }
 export { membersArr, resultsArr, resultsRenderArr, membersRenderArr };

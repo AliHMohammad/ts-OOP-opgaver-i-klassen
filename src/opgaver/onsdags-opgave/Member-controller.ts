@@ -3,6 +3,10 @@ import { Member } from "./Member.js";
 import { MemberRender } from "./MemberRender.js";
 import { RawMember } from "./interfaces";
 
+async function getMembers(): Promise<RawMember[]> {
+    return await (await fetch("../../../data/members.json")).json();
+}
+
 function createMemberArr(rawMembersArr: RawMember[]) {
     for (const rawMember of rawMembersArr) {
         const newMember = new Member(
@@ -43,4 +47,4 @@ function createMemberRenderArr(rawMembersArr: RawMember[]) {
     }
 }
 
-export {createMemberArr, createMemberRenderArr}
+export {createMemberArr, createMemberRenderArr, getMembers}

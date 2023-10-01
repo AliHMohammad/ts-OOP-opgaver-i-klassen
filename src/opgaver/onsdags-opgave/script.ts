@@ -2,11 +2,11 @@ import { initTabs } from "./tabs.js";
 import { RawMember, RawResult} from "./interfaces.js";
 import { Member } from "./Member.js";
 import { MemberRender } from "./MemberRender.js";
-import { createMemberArr, createMemberRenderArr } from "./Member-controller.js";
+import { createMemberArr, createMemberRenderArr, getMembers } from "./Member-controller.js";
 import { sortFilterMembers } from "./Member-view.js";
 import { Result } from "./Result.js";
 import { ResultRender } from "./ResultRender.js";
-import { createResultArr, createResultRenderArr } from "./Result-controller.js";
+import { createResultArr, createResultRenderArr, getResults } from "./Result-controller.js";
 import { sortFilterResults } from "./Result-view.js";
 
 window.addEventListener("load", initApp);
@@ -44,14 +44,6 @@ function initiateEventListeners() {
     document.querySelector("#filter-results")?.addEventListener("change", sortFilterResults);
     document.querySelector("#sort-results")?.addEventListener("change", sortFilterResults);
     document.querySelector("#sort-order-results")?.addEventListener("change", sortFilterResults);
-}
-
-async function getMembers(): Promise<RawMember[]> {
-    return await (await fetch("../../../data/members.json")).json();
-}
-
-async function getResults(): Promise<RawResult[]> {
-    return await (await fetch("../../../data/results.json")).json();
 }
 
 

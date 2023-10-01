@@ -3,6 +3,10 @@ import { ResultRender } from "./ResultRender.js";
 import { RawResult } from "./interfaces";
 import { resultsArr, resultsRenderArr } from "./script.js";
 
+async function getResults(): Promise<RawResult[]> {
+    return await (await fetch("../../../data/results.json")).json();
+}
+
 function createResultArr(rawResultsArr: RawResult[]) {
     for (const rawResult of rawResultsArr) {
         const newResult = new Result(
@@ -39,4 +43,4 @@ function createResultRenderArr(rawResultsArr: RawResult[]) {
     }
 }
 
-export { createResultArr, createResultRenderArr }; 
+export { createResultArr, createResultRenderArr, getResults }; 

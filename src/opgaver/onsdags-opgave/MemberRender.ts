@@ -3,9 +3,6 @@ import { RawMember, Render, StaticRender } from "./interfaces.js";
 import { getDisciplinesInDanish } from "./Member-view.js";
 
 export class MemberRender extends Member implements Render {
-    // constructor(data: RawMember) {
-    //     super(data.id, data.firstName, data.lastName, data.email, data.dateOfBirth, data.disciplines, data.gender, data.hasPayed, data.image, data.isActiveMember, data.isCompetitive);
-    // }
 
     render(): string {
         const danskDiscipliner = getDisciplinesInDanish(this._disciplines);
