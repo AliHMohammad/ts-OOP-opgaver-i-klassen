@@ -1,10 +1,4 @@
 import { membersArr } from "./script.js";
-const discipliner = {
-    breaststroke: "Bryst",
-    backstroke: "Ryg",
-    freestyle: "Fristil",
-    butterfly: "Sommerfugl",
-};
 function factoryMember(rawMember) {
     const newMember = {
         _id: rawMember.id,

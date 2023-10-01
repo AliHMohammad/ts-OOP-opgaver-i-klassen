@@ -1,5 +1,5 @@
 import { Member } from "./Member.js";
-import { getDisciplinesInDanish } from "./script.js";
+import { getDisciplinesInDanish } from "./Member-view.js";
 export class MemberRender extends Member {
     // constructor(data: RawMember) {
     //     super(data.id, data.firstName, data.lastName, data.email, data.dateOfBirth, data.disciplines, data.gender, data.hasPayed, data.image, data.isActiveMember, data.isCompetitive);

@@ -1,12 +1,7 @@
 import { Member, Result, RawMember, RawResult } from "./interfaces";
 import { membersArr } from "./script.js";
 
-const discipliner: { [key: string]: string } = {
-    breaststroke: "Bryst",
-    backstroke: "Ryg",
-    freestyle: "Fristil",
-    butterfly: "Sommerfugl",
-};
+
 
 function factoryMember(rawMember: RawMember): Member {
     const newMember: Member = {

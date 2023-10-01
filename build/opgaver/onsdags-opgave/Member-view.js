@@ -1,16 +1,26 @@
 import { MemberRender } from "./MemberRender.js";
 import { membersRenderArr } from "./script.js";
+function getDisciplinesInDanish(disciplines) {
+    const danskArr = [];
+    if (!disciplines) {
+        return null;
+    }
+    for (const discipline of disciplines) {
+        danskArr.push(discipline);
+    }
+    return danskArr.join(", ");
+}
 function sortFilterMembers() {
     //HTML elements
     const filterElement = document.querySelector("#filter-members");
     const sortElement = document.querySelector("#sort-members");
+    const sortByElement = document.querySelector("#sort-order-members");
     //FILTER
     const filterValue = filterElement.value;
     console.log(filterValue);
     const filteredmembers = MemberRender.filter(membersRenderArr, filterValue);
     console.log(filteredmembers);
     //SORT
-    const sortByElement = document.querySelector("#sort-order-members");
     const sortValue = sortElement.value;
     const sortByValue = sortByElement.value;
     let sortDataType = "string";
@@ -27,9 +37,9 @@ function sortFilterMembers() {
     renderAllMembers(filteredmembers);
 }
 function renderAllMembers(members) {
-    MemberRender.clear(document.querySelector("#members tbody"));
+    const container = document.querySelector("#members tbody");
+    MemberRender.clear(container);
     for (const member of members) {
-        const container = document.querySelector("#members tbody");
         const html = member.render();
         container.insertAdjacentHTML("beforeend", html);
         if (container.lastElementChild) {
@@ -37,4 +47,4 @@ function renderAllMembers(members) {
         }
     }
 }
-export { sortFilterMembers };
+export { sortFilterMembers, getDisciplinesInDanish };

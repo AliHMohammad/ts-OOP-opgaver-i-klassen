@@ -20,6 +20,7 @@ function sortFilterMembers() {
     //HTML elements
     const filterElement = document.querySelector("#filter-members") as HTMLSelectElement;
     const sortElement = document.querySelector("#sort-members") as HTMLSelectElement;
+    const sortByElement = document.querySelector("#sort-order-members") as HTMLSelectElement;
 
     //FILTER
     const filterValue = filterElement.value;
@@ -30,7 +31,6 @@ function sortFilterMembers() {
     console.log(filteredmembers);
 
     //SORT
-    const sortByElement = document.querySelector("#sort-order-members") as HTMLSelectElement;
     const sortValue = sortElement.value as keyof Member;
     const sortByValue = sortByElement.value;
     let sortDataType = "string";
@@ -51,9 +51,9 @@ function sortFilterMembers() {
 }
 
 function renderAllMembers(members: MemberRender[]) {
-    MemberRender.clear(document.querySelector("#members tbody") as HTMLElement);
+    const container = document.querySelector("#members tbody") as HTMLElement;
+    MemberRender.clear(container);
     for (const member of members) {
-        const container = document.querySelector("#members tbody") as HTMLElement;
         const html = member.render();
         container.insertAdjacentHTML("beforeend", html);
 

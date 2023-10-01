@@ -42,16 +42,14 @@ export class MemberRender extends Member implements Render {
         });
     }
 
-    static sort(memberArr: Member[], property: keyof Member, dataType: string): void {
+    static sort(memberArr: MemberRender[], property: keyof Member, dataType: string): void {
         if (dataType === "string") {
             this.sortByString(memberArr, property);
         } else if (dataType === "number") {
             this.sortByNumber(memberArr, property);
         } else if (dataType === "date") {
             this.sortByDate(memberArr, property);
-        }
-
-        
+        } 
     }
 
     static filter(memberArr: MemberRender[], property: string): MemberRender[] {
