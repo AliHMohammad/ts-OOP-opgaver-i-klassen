@@ -1,5 +1,7 @@
 import { initTabs } from "./tabs.js";
 import * as construct from "./factories.js";
+import { Member } from "./Member.js";
+import { MemberRender } from "./MemberRender.js";
 window.addEventListener("load", initApp);
 const discipliner = {
     breaststroke: "Bryst",
@@ -8,35 +10,44 @@ const discipliner = {
     butterfly: "Sommerfugl",
 };
 let membersArr = [];
+let membersRenderArr = [];
 let resultsArr = [];
 async function initApp() {
     initTabs();
     const rawMembersArr = await getMembers();
     const rawResultsArr = await getResults();
-    constructMembers(rawMembersArr);
-    constructResults(rawResultsArr);
-    sortMembers();
-    sortResults();
-    showMembers(membersArr);
+    createMemberArr(rawMembersArr);
+    createMemberRenderArr(rawMembersArr);
+    renderAllMembers();
+    MemberRender.clear(document.querySelector("#members tbody"));
+    MemberRender.sort(membersRenderArr, "name", "string", false);
+    renderAllMembers();
+    // constructResults(rawResultsArr);
+    // sortMembers();
+    // sortResults();
+    // showMembers(membersArr);
     showResults(resultsArr);
 }
-function showMembers(members) {
-    for (const member of members) {
-        showMember(member);
+function createMemberArr(rawMembersArr) {
+    for (const rawMember of rawMembersArr) {
+        const newMember = new Member(rawMember.id, rawMember.firstName, rawMember.lastName, rawMember.email, rawMember.dateOfBirth, rawMember.disciplines, rawMember.gender, rawMember.hasPayed, rawMember.image, rawMember.isActiveMember, rawMember.isCompetitive);
+        membersArr.push(newMember);
     }
 }
-function showMember(member) {
-    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
-    const html = /*html*/ `
-    <tr>
-        <td>${member.name}</td>
-        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
-        <td>${member.dateOfBirthToString}</td>
-        <td>${member.age}</td>
-        <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
-    </tr>
-    `;
-    document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
+function createMemberRenderArr(rawMembersArr) {
+    for (const rawMember of rawMembersArr) {
+        const newMemberRender = new MemberRender(rawMember.id, rawMember.firstName, rawMember.lastName, rawMember.email, rawMember.dateOfBirth, rawMember.disciplines, rawMember.gender, rawMember.hasPayed, rawMember.image, rawMember.isActiveMember, rawMember.isCompetitive);
+        membersRenderArr.push(newMemberRender);
+    }
+}
+function renderAllMembers() {
+    for (const member of membersRenderArr) {
+        const container = document.querySelector("#members tbody");
+        member.render(container);
+        if (container.lastElementChild) {
+            member.postRender(container.lastElementChild);
+        }
+    }
 }
 function showResults(results) {
     for (const result of results) {
@@ -77,14 +88,9 @@ async function getMembers() {
 async function getResults() {
     return await (await fetch("../../../data/results.json")).json();
 }
-function constructMembers(rawMembers) {
-    for (const rawMember of rawMembers) {
-        membersArr.push(construct.factoryMember(rawMember));
-    }
-}
 function constructResults(rawResults) {
     for (const rawResult of rawResults) {
         resultsArr.push(construct.factoryResult(rawResult));
     }
 }
-export { membersArr, resultsArr };
+export { membersArr, resultsArr, getDisciplinesInDanish };

@@ -1,3 +1,5 @@
+import { Member as MemberClass } from "./Member";
+
 export interface Member {
     _id: string;
     _dateOfBirth: Date;
@@ -71,4 +73,16 @@ export interface RawResult {
     memberId: string;
     resultType: string;
     time: string;
+}
+
+export interface Render {
+    render: (container: HTMLElement) => void;
+    postRender: (containerLastChild: HTMLElement) => void;
+}
+
+export interface StaticRender {
+    
+    sort: (a: MemberClass[], b: keyof MemberClass, c: string, d: boolean) => void;
+    sortByString(a: MemberClass[], b: keyof MemberClass): void;
+    clear: (container: HTMLElement) => void;
 }

@@ -1,6 +1,8 @@
 import { initTabs } from "./tabs.js";
-import { Member, RawMember, RawResult, Result } from "./interfaces.js";
+import { Member as MemberInterface, RawMember, RawResult, Result } from "./interfaces.js";
 import * as construct from "./factories.js";
+import { Member } from "./Member.js";
+import { MemberRender } from "./MemberRender.js";
 
 window.addEventListener("load", initApp);
 
@@ -12,6 +14,7 @@ const discipliner: { [key: string]: string } = {
 };
 
 let membersArr: Member[] = [];
+let membersRenderArr: MemberRender[] = [];
 let resultsArr: Result[] = [];
 
 async function initApp() {
@@ -19,38 +22,75 @@ async function initApp() {
     const rawMembersArr: RawMember[] = await getMembers();
     const rawResultsArr: RawResult[] = await getResults();
 
-    constructMembers(rawMembersArr);
-    constructResults(rawResultsArr);
+    createMemberArr(rawMembersArr);
+    createMemberRenderArr(rawMembersArr);
 
-    sortMembers();
-    sortResults();
+    renderAllMembers()
+    
 
-    showMembers(membersArr);
+    MemberRender.clear(document.querySelector("#members tbody") as HTMLElement);
+    MemberRender.sort(membersRenderArr, "name", "string", false);
+
+    renderAllMembers();
+
+    // constructResults(rawResultsArr);
+
+    // sortMembers();
+    // sortResults();
+
+    // showMembers(membersArr);
+
     showResults(resultsArr);
 }
 
-function showMembers(members: Member[]) {
-    for (const member of members) {
-        showMember(member);
+function createMemberArr(rawMembersArr: RawMember[]) {
+    for (const rawMember of rawMembersArr) {
+        const newMember = new Member(
+            rawMember.id,
+            rawMember.firstName,
+            rawMember.lastName,
+            rawMember.email,
+            rawMember.dateOfBirth,
+            rawMember.disciplines,
+            rawMember.gender,
+            rawMember.hasPayed,
+            rawMember.image,
+            rawMember.isActiveMember,
+            rawMember.isCompetitive
+        );
+
+        membersArr.push(newMember);
     }
 }
 
-function showMember(member: Member) {
+function createMemberRenderArr(rawMembersArr: RawMember[]) {
+    for (const rawMember of rawMembersArr) {
+        const newMemberRender = new MemberRender(
+            rawMember.id,
+            rawMember.firstName,
+            rawMember.lastName,
+            rawMember.email,
+            rawMember.dateOfBirth,
+            rawMember.disciplines,
+            rawMember.gender,
+            rawMember.hasPayed,
+            rawMember.image,
+            rawMember.isActiveMember,
+            rawMember.isCompetitive
+        );
 
-    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
+        membersRenderArr.push(newMemberRender);
+    }
+}
 
-
-    const html = /*html*/ `
-    <tr>
-        <td>${member.name}</td>
-        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
-        <td>${member.dateOfBirthToString}</td>
-        <td>${member.age}</td>
-        <td>${danskDiscipliner ? danskDiscipliner : "Ingen" }</td>
-    </tr>
-    `;
-
-    document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
+function renderAllMembers() {
+    for (const member of membersRenderArr) {
+        const container = document.querySelector("#members tbody") as HTMLElement;
+        member.render(container);
+        if (container.lastElementChild) {
+            member.postRender(container.lastElementChild as HTMLElement);
+        }
+    }
 }
 
 function showResults(results: Result[]) {
@@ -60,8 +100,6 @@ function showResults(results: Result[]) {
 }
 
 function showResult(result: Result) {
-
-
     const html = /*html*/ `
     <tr>
         <td>${result.dateToString}</td>
@@ -73,7 +111,6 @@ function showResult(result: Result) {
     `;
 
     document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
-
 }
 
 function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
@@ -87,7 +124,7 @@ function getDisciplinesInDanish(disciplines: string[] | undefined): string | nul
         danskArr.push(discipline);
     }
 
-    return danskArr.join(", ")
+    return danskArr.join(", ");
 }
 
 function sortResults() {
@@ -95,7 +132,7 @@ function sortResults() {
 }
 
 function sortMembers() {
-    membersArr.sort((a: Member, b: Member) => a.name.localeCompare(b.name));
+    membersArr.sort((a: MemberInterface, b: MemberInterface) => a.name.localeCompare(b.name));
 }
 
 async function getMembers(): Promise<RawMember[]> {
@@ -106,16 +143,10 @@ async function getResults(): Promise<RawResult[]> {
     return await (await fetch("../../../data/results.json")).json();
 }
 
-function constructMembers(rawMembers: RawMember[]) {
-    for (const rawMember of rawMembers) {
-        membersArr.push(construct.factoryMember(rawMember));
-    }
-}
-
 function constructResults(rawResults: RawResult[]) {
     for (const rawResult of rawResults) {
         resultsArr.push(construct.factoryResult(rawResult));
     }
 }
 
-export { membersArr, resultsArr };
+export { membersArr, resultsArr, getDisciplinesInDanish };
