@@ -1,5 +1,7 @@
 import { Member as MemberClass } from "./Member";
 
+
+//Unused. I am using the class itself for type validation
 export interface Member {
     _id: string;
     _dateOfBirth: Date;
@@ -38,6 +40,7 @@ export interface RawMember {
     isCompetitive: boolean;
 }
 
+//Unused. I am using the class itself for type validation
 export interface Result {
     _id: string;
     _competitionLocation: string;
@@ -80,6 +83,7 @@ export interface Render {
     postRender: (containerLastChild: HTMLElement) => void;
 }
 
+//Unused
 export interface StaticRender {
     sort: (a: MemberClass[], b: keyof MemberClass, c: string, d: boolean) => void;
     sortByString(a: MemberClass[], b: keyof MemberClass): void;

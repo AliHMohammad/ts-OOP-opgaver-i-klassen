@@ -26,7 +26,7 @@ function sortFilterResults() {
         filteredResults = ResultRender.filter(resultsRenderArr, filterValue)
     } 
 
-
+    
     //SORT
     const sortValue = sortElement.value as keyof Result;
     const sortByValue = sortByElement.value;
@@ -41,8 +41,6 @@ function sortFilterResults() {
     console.log(sortValue);
     console.log(sortByValue);
     
-    
-
     ResultRender.sort(filteredResults, sortValue, sortDataType)
 
 

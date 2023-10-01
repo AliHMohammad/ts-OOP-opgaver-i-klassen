@@ -4,12 +4,6 @@ import { sortFilterMembers } from "./Member-view.js";
 import { createResultArr, createResultRenderArr } from "./Result-controller.js";
 import { sortFilterResults } from "./Result-view.js";
 window.addEventListener("load", initApp);
-// const discipliner: { [key: string]: string } = {
-//     breaststroke: "Bryst",
-//     backstroke: "Ryg",
-//     freestyle: "Fristil",
-//     butterfly: "Sommerfugl",
-// };
 const membersArr = [];
 const membersRenderArr = [];
 const resultsArr = [];
@@ -22,17 +16,8 @@ async function initApp() {
     createMemberRenderArr(rawMembersArr);
     createResultArr(rawResultsArr);
     createResultRenderArr(rawResultsArr);
-    // renderAllResults(resultsRenderArr);
-    // renderAllMembers(membersRenderArr);
-    // MemberRender.sort(membersRenderArr, "name", "string");
-    // renderAllMembers(membersRenderArr);
     sortFilterMembers();
     sortFilterResults();
-    // constructResults(rawResultsArr);
-    // sortMembers();
-    // sortResults();
-    // showMembers(membersArr);
-    // showResults(resultsArr);
     initiateEventListeners();
 }
 function initiateEventListeners() {
@@ -51,9 +36,4 @@ async function getMembers() {
 async function getResults() {
     return await (await fetch("../../../data/results.json")).json();
 }
-// function constructResults(rawResults: RawResult[]) {
-//     for (const rawResult of rawResults) {
-//         resultsArr.push(construct.factoryResult(rawResult));
-//     }
-// }
 export { membersArr, resultsArr, resultsRenderArr, membersRenderArr };
