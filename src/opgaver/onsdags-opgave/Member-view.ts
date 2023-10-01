@@ -37,9 +37,7 @@ function sortFilterMembers() {
 
     if (sortValue === "age") {
         sortDataType = "number";
-    } else if (sortValue === "dateOfBirth") {
-        sortDataType = "date";
-    }
+    } 
 
     MemberRender.sort(filteredmembers, sortValue, sortDataType);
 
