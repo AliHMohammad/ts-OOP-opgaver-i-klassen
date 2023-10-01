@@ -1,24 +1,11 @@
 import { Member } from "./Member.js";
-import { Render, StaticRender } from "./interfaces.js";
+import { RawMember, Render, StaticRender } from "./interfaces.js";
 import { getDisciplinesInDanish } from "./script.js";
 
 export class MemberRender extends Member implements Render {
-
-    constructor(
-        id: string,
-        firstName: string,
-        lastName: string,
-        email: string,
-        dateOfBirth: string,
-        disciplines: string[] | undefined,
-        gender: string,
-        hasPayed: boolean,
-        image: string,
-        isActiveMember: boolean,
-        isCompetitive: boolean
-    ) {
-        super(id, firstName, lastName, email, dateOfBirth, disciplines, gender, hasPayed, image, isActiveMember, isCompetitive);
-    }
+    // constructor(data: RawMember) {
+    //     super(data.id, data.firstName, data.lastName, data.email, data.dateOfBirth, data.disciplines, data.gender, data.hasPayed, data.image, data.isActiveMember, data.isCompetitive);
+    // }
 
     render(container: HTMLElement): void {
         const danskDiscipliner = getDisciplinesInDanish(this._disciplines);
@@ -66,7 +53,6 @@ export class MemberRender extends Member implements Render {
         }
     }
 
-
     static clear(container: HTMLElement): void {
         container.innerHTML = "";
     }
@@ -79,7 +65,7 @@ export class MemberRender extends Member implements Render {
 
     private static sortByString(memberArr: Member[], property: keyof Member): void {
         console.log("sort name");
-        
+
         memberArr.sort((a: Member, b: Member) => (a[property] as string).localeCompare(b[property] as string));
     }
 }

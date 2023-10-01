@@ -25,8 +25,7 @@ async function initApp() {
     createMemberArr(rawMembersArr);
     createMemberRenderArr(rawMembersArr);
 
-    renderAllMembers()
-    
+    renderAllMembers();
 
     MemberRender.clear(document.querySelector("#members tbody") as HTMLElement);
     MemberRender.sort(membersRenderArr, "name", "string", false);

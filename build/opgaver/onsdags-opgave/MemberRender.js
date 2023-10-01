@@ -1,9 +1,9 @@
 import { Member } from "./Member.js";
 import { getDisciplinesInDanish } from "./script.js";
 export class MemberRender extends Member {
-    constructor(id, firstName, lastName, email, dateOfBirth, disciplines, gender, hasPayed, image, isActiveMember, isCompetitive) {
-        super(id, firstName, lastName, email, dateOfBirth, disciplines, gender, hasPayed, image, isActiveMember, isCompetitive);
-    }
+    // constructor(data: RawMember) {
+    //     super(data.id, data.firstName, data.lastName, data.email, data.dateOfBirth, data.disciplines, data.gender, data.hasPayed, data.image, data.isActiveMember, data.isCompetitive);
+    // }
     render(container) {
         const danskDiscipliner = getDisciplinesInDanish(this._disciplines);
         const html = /*html*/ `
