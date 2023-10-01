@@ -87,11 +87,11 @@ export class Member {
     }
 
     isJunior(): boolean {
-        return this.age < 18 ? true : false;
+        return this.age < 18;
     }
 
     isSenior(): boolean {
-        return this.age >= 18 ? true : false;
+        return this.age >= 18;
     }
 
     

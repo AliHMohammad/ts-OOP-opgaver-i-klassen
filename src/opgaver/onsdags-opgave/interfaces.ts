@@ -76,13 +76,13 @@ export interface RawResult {
 }
 
 export interface Render {
-    render: (container: HTMLElement) => void;
+    render: () => string;
     postRender: (containerLastChild: HTMLElement) => void;
 }
 
 export interface StaticRender {
-    
     sort: (a: MemberClass[], b: keyof MemberClass, c: string, d: boolean) => void;
     sortByString(a: MemberClass[], b: keyof MemberClass): void;
+    sortByNumber(a: MemberClass[], b: keyof MemberClass): void;
     clear: (container: HTMLElement) => void;
 }

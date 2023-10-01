@@ -18,15 +18,47 @@ async function initApp() {
     const rawResultsArr = await getResults();
     createMemberArr(rawMembersArr);
     createMemberRenderArr(rawMembersArr);
-    renderAllMembers();
-    MemberRender.clear(document.querySelector("#members tbody"));
-    MemberRender.sort(membersRenderArr, "name", "string", false);
-    renderAllMembers();
+    // renderAllMembers(membersRenderArr);
+    // MemberRender.sort(membersRenderArr, "name", "string");
+    // renderAllMembers(membersRenderArr);
+    sortFilterMembers();
     // constructResults(rawResultsArr);
     // sortMembers();
     // sortResults();
     // showMembers(membersArr);
-    showResults(resultsArr);
+    // showResults(resultsArr);
+    initiateEventListeners();
+}
+function initiateEventListeners() {
+    document.querySelector("#filter-members")?.addEventListener("change", sortFilterMembers);
+    document.querySelector("#sort-members")?.addEventListener("change", sortFilterMembers);
+    document.querySelector("#sort-order-members")?.addEventListener("change", sortFilterMembers);
+}
+function sortFilterMembers() {
+    //HTML elements
+    const filterElement = document.querySelector("#filter-members");
+    const sortElement = document.querySelector("#sort-members");
+    //FILTER
+    const filterValue = filterElement.value;
+    console.log(filterValue);
+    const filteredmembers = MemberRender.filter(membersRenderArr, filterValue);
+    console.log(filteredmembers);
+    //SORT
+    const sortByElement = document.querySelector("#sort-order-members");
+    const sortValue = sortElement.value;
+    const sortByValue = sortByElement.value;
+    let sortDataType = "string";
+    if (sortValue === "age") {
+        sortDataType = "number";
+    }
+    else if (sortValue === "dateOfBirth") {
+        sortDataType = "date";
+    }
+    MemberRender.sort(filteredmembers, sortValue, sortDataType);
+    if (sortByValue === "DESC") {
+        filteredmembers.reverse();
+    }
+    renderAllMembers(filteredmembers);
 }
 function createMemberArr(rawMembersArr) {
     for (const rawMember of rawMembersArr) {
@@ -40,10 +72,12 @@ function createMemberRenderArr(rawMembersArr) {
         membersRenderArr.push(newMemberRender);
     }
 }
-function renderAllMembers() {
-    for (const member of membersRenderArr) {
+function renderAllMembers(members) {
+    MemberRender.clear(document.querySelector("#members tbody"));
+    for (const member of members) {
         const container = document.querySelector("#members tbody");
-        member.render(container);
+        const html = member.render();
+        container.insertAdjacentHTML("beforeend", html);
         if (container.lastElementChild) {
             member.postRender(container.lastElementChild);
         }
@@ -75,12 +109,6 @@ function getDisciplinesInDanish(disciplines) {
         danskArr.push(discipline);
     }
     return danskArr.join(", ");
-}
-function sortResults() {
-    resultsArr.sort((a, b) => a.time - b.time);
-}
-function sortMembers() {
-    membersArr.sort((a, b) => a.name.localeCompare(b.name));
 }
 async function getMembers() {
     return await (await fetch("../../../data/members.json")).json();

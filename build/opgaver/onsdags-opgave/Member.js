@@ -61,9 +61,9 @@ export class Member {
         }
     }
     isJunior() {
-        return this.age < 18 ? true : false;
+        return this.age < 18;
     }
     isSenior() {
-        return this.age >= 18 ? true : false;
+        return this.age >= 18;
     }
 }

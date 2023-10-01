@@ -4,9 +4,9 @@ export class MemberRender extends Member {
     // constructor(data: RawMember) {
     //     super(data.id, data.firstName, data.lastName, data.email, data.dateOfBirth, data.disciplines, data.gender, data.hasPayed, data.image, data.isActiveMember, data.isCompetitive);
     // }
-    render(container) {
+    render() {
         const danskDiscipliner = getDisciplinesInDanish(this._disciplines);
-        const html = /*html*/ `
+        return /*html*/ `
         <tr>
             <td class="name">${this.name}</td>
             <td>${this._isActiveMember ? "Ja" : "Nej"}</td>
@@ -16,7 +16,6 @@ export class MemberRender extends Member {
             <td><button>Delete</button></td>
         </tr>
         `;
-        container.insertAdjacentHTML("beforeend", html);
     }
     postRender(containerLastChild) {
         containerLastChild.querySelector(".name")?.addEventListener("click", () => {
@@ -34,25 +33,45 @@ export class MemberRender extends Member {
             console.log(this);
         });
     }
-    static sort(memberArr, property, dataType, isReverse) {
+    static sort(memberArr, property, dataType) {
         if (dataType === "string") {
             this.sortByString(memberArr, property);
-            isReverse === true ? memberArr.reverse() : "";
         }
         else if (dataType === "number") {
+            this.sortByNumber(memberArr, property);
         }
         else if (dataType === "date") {
+            this.sortByDate(memberArr, property);
         }
+    }
+    static filter(memberArr, property) {
+        let result = [];
+        if (property === "isActiveMember") {
+            result = memberArr.filter((member) => member.isActiveMember === true);
+        }
+        else if (property === "!isActiveMember") {
+            result = memberArr.filter((member) => member.isActiveMember === false);
+        }
+        else if (property === "senior") {
+            result = memberArr.filter((member) => member.isSenior());
+        }
+        else if (property === "junior") {
+            result = memberArr.filter((member) => member.isJunior());
+        }
+        return result;
     }
     static clear(container) {
         container.innerHTML = "";
     }
-    // private sortByDate() {}
-    // private sortByNumber() {
-    //     memberArr.sort((a, b) => a[`${property}`] - b[`${property}`]);
-    // }
+    static sortByDate(memberArr, property) {
+        memberArr.sort((a, b) => new Date(a[property]).getTime() - new Date(b[property]).getTime());
+    }
+    static sortByNumber(memberArr, property) {
+        console.log("sort number");
+        memberArr.sort((a, b) => a[property] - b[property]);
+    }
     static sortByString(memberArr, property) {
-        console.log("sort name");
+        console.log("sort string");
         memberArr.sort((a, b) => a[property].localeCompare(b[property]));
     }
 }

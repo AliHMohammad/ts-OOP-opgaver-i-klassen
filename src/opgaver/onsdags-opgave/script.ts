@@ -25,12 +25,11 @@ async function initApp() {
     createMemberArr(rawMembersArr);
     createMemberRenderArr(rawMembersArr);
 
-    renderAllMembers();
+    // renderAllMembers(membersRenderArr);
+    // MemberRender.sort(membersRenderArr, "name", "string");
+    // renderAllMembers(membersRenderArr);
 
-    MemberRender.clear(document.querySelector("#members tbody") as HTMLElement);
-    MemberRender.sort(membersRenderArr, "name", "string", false);
-
-    renderAllMembers();
+    sortFilterMembers()
 
     // constructResults(rawResultsArr);
 
@@ -39,7 +38,50 @@ async function initApp() {
 
     // showMembers(membersArr);
 
-    showResults(resultsArr);
+    // showResults(resultsArr);
+    initiateEventListeners();
+}
+
+function initiateEventListeners() {
+    document.querySelector("#filter-members")?.addEventListener("change", sortFilterMembers);
+    document.querySelector("#sort-members")?.addEventListener("change", sortFilterMembers);
+    document.querySelector("#sort-order-members")?.addEventListener("change", sortFilterMembers);
+}
+
+function sortFilterMembers() {
+    //HTML elements
+    const filterElement = document.querySelector("#filter-members") as HTMLSelectElement;
+    const sortElement = document.querySelector("#sort-members") as HTMLSelectElement;
+
+    //FILTER
+    const filterValue = filterElement.value;
+    console.log(filterValue);
+    
+    const filteredmembers = MemberRender.filter(membersRenderArr, filterValue);
+        
+    
+    console.log(filteredmembers);
+    
+
+    //SORT
+    const sortByElement = document.querySelector("#sort-order-members") as HTMLSelectElement;
+    const sortValue = sortElement.value as keyof Member;
+    const sortByValue = sortByElement.value;
+    let sortDataType = "string";
+
+    if (sortValue === "age") {
+        sortDataType = "number";
+    } else if (sortValue === "dateOfBirth") {
+        sortDataType = "date"
+    }
+
+    MemberRender.sort(filteredmembers, sortValue, sortDataType)
+
+    if (sortByValue === "DESC") {
+        filteredmembers.reverse();
+    }
+
+    renderAllMembers(filteredmembers)
 }
 
 function createMemberArr(rawMembersArr: RawMember[]) {
@@ -82,10 +124,13 @@ function createMemberRenderArr(rawMembersArr: RawMember[]) {
     }
 }
 
-function renderAllMembers() {
-    for (const member of membersRenderArr) {
+function renderAllMembers(members: MemberRender[]) {
+    MemberRender.clear(document.querySelector("#members tbody") as HTMLElement);
+    for (const member of members) {
         const container = document.querySelector("#members tbody") as HTMLElement;
-        member.render(container);
+        const html = member.render();
+        container.insertAdjacentHTML("beforeend", html)
+
         if (container.lastElementChild) {
             member.postRender(container.lastElementChild as HTMLElement);
         }
@@ -124,14 +169,6 @@ function getDisciplinesInDanish(disciplines: string[] | undefined): string | nul
     }
 
     return danskArr.join(", ");
-}
-
-function sortResults() {
-    resultsArr.sort((a: Result, b: Result) => a.time - b.time);
-}
-
-function sortMembers() {
-    membersArr.sort((a: MemberInterface, b: MemberInterface) => a.name.localeCompare(b.name));
 }
 
 async function getMembers(): Promise<RawMember[]> {
