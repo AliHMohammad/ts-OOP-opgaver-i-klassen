@@ -1,6 +1,6 @@
 import { Member } from "./Member.js";
 import { RawMember, Render, StaticRender } from "./interfaces.js";
-import { getDisciplinesInDanish } from "./script.js";
+import { getDisciplinesInDanish } from "./Member-view.js";
 
 export class MemberRender extends Member implements Render {
     // constructor(data: RawMember) {

@@ -2,6 +2,20 @@ import { MemberRender } from "./MemberRender.js";
 import { membersRenderArr } from "./script.js";
 import { Member } from "./Member.js";
 
+function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
+    const danskArr: string[] = [];
+
+    if (!disciplines) {
+        return null;
+    }
+
+    for (const discipline of disciplines) {
+        danskArr.push(discipline);
+    }
+
+    return danskArr.join(", ");
+}
+
 function sortFilterMembers() {
     //HTML elements
     const filterElement = document.querySelector("#filter-members") as HTMLSelectElement;
@@ -50,4 +64,4 @@ function renderAllMembers(members: MemberRender[]) {
 }
 
 
-export {sortFilterMembers}
+export {sortFilterMembers, getDisciplinesInDanish}

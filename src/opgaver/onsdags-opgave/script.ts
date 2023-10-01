@@ -51,8 +51,6 @@ function initiateEventListeners() {
     document.querySelector("#sort-order-members")?.addEventListener("change", sortFilterMembers);
 }
 
-
-
 function showResults(results: Result[]) {
     for (const result of results) {
         showResult(result);
@@ -73,19 +71,7 @@ function showResult(result: Result) {
     document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
 }
 
-function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
-    const danskArr: string[] = [];
 
-    if (!disciplines) {
-        return null;
-    }
-
-    for (const discipline of disciplines) {
-        danskArr.push(discipline);
-    }
-
-    return danskArr.join(", ");
-}
 
 async function getMembers(): Promise<RawMember[]> {
     return await (await fetch("../../../data/members.json")).json();
@@ -101,4 +87,4 @@ function constructResults(rawResults: RawResult[]) {
     }
 }
 
-export { membersArr, resultsArr, getDisciplinesInDanish, membersRenderArr };
+export { membersArr, resultsArr, membersRenderArr };
