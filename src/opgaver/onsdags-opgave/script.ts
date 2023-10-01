@@ -3,6 +3,8 @@ import { Member as MemberInterface, RawMember, RawResult, Result } from "./inter
 import * as construct from "./factories.js";
 import { Member } from "./Member.js";
 import { MemberRender } from "./MemberRender.js";
+import { createMemberArr, createMemberRenderArr } from "./Member-controller.js";
+import { sortFilterMembers } from "./Member-view.js";
 
 window.addEventListener("load", initApp);
 
@@ -15,6 +17,7 @@ const discipliner: { [key: string]: string } = {
 
 let membersArr: Member[] = [];
 let membersRenderArr: MemberRender[] = [];
+
 let resultsArr: Result[] = [];
 
 async function initApp() {
@@ -48,94 +51,7 @@ function initiateEventListeners() {
     document.querySelector("#sort-order-members")?.addEventListener("change", sortFilterMembers);
 }
 
-function sortFilterMembers() {
-    //HTML elements
-    const filterElement = document.querySelector("#filter-members") as HTMLSelectElement;
-    const sortElement = document.querySelector("#sort-members") as HTMLSelectElement;
 
-    //FILTER
-    const filterValue = filterElement.value;
-    console.log(filterValue);
-    
-    const filteredmembers = MemberRender.filter(membersRenderArr, filterValue);
-        
-    
-    console.log(filteredmembers);
-    
-
-    //SORT
-    const sortByElement = document.querySelector("#sort-order-members") as HTMLSelectElement;
-    const sortValue = sortElement.value as keyof Member;
-    const sortByValue = sortByElement.value;
-    let sortDataType = "string";
-
-    if (sortValue === "age") {
-        sortDataType = "number";
-    } else if (sortValue === "dateOfBirth") {
-        sortDataType = "date"
-    }
-
-    MemberRender.sort(filteredmembers, sortValue, sortDataType)
-
-    if (sortByValue === "DESC") {
-        filteredmembers.reverse();
-    }
-
-    renderAllMembers(filteredmembers)
-}
-
-function createMemberArr(rawMembersArr: RawMember[]) {
-    for (const rawMember of rawMembersArr) {
-        const newMember = new Member(
-            rawMember.id,
-            rawMember.firstName,
-            rawMember.lastName,
-            rawMember.email,
-            rawMember.dateOfBirth,
-            rawMember.disciplines,
-            rawMember.gender,
-            rawMember.hasPayed,
-            rawMember.image,
-            rawMember.isActiveMember,
-            rawMember.isCompetitive
-        );
-
-        membersArr.push(newMember);
-    }
-}
-
-function createMemberRenderArr(rawMembersArr: RawMember[]) {
-    for (const rawMember of rawMembersArr) {
-        const newMemberRender = new MemberRender(
-            rawMember.id,
-            rawMember.firstName,
-            rawMember.lastName,
-            rawMember.email,
-            rawMember.dateOfBirth,
-            rawMember.disciplines,
-            rawMember.gender,
-            rawMember.hasPayed,
-            rawMember.image,
-            rawMember.isActiveMember,
-            rawMember.isCompetitive
-        );
-
-        membersRenderArr.push(newMemberRender);
-    }
-}
-
-function renderAllMembers(members: MemberRender[]) {
-    MemberRender.clear(document.querySelector("#members tbody") as HTMLElement);
-    for (const member of members) {
-        const container = document.querySelector("#members tbody") as HTMLElement;
-        const html = member.render();
-        container.insertAdjacentHTML("beforeend", html)
-
-        if (container.lastElementChild) {
-            member.postRender(container.lastElementChild as HTMLElement);
-        }
-    }
-}
 
 function showResults(results: Result[]) {
     for (const result of results) {
@@ -185,4 +101,4 @@ function constructResults(rawResults: RawResult[]) {
     }
 }
 
-export { membersArr, resultsArr, getDisciplinesInDanish };
+export { membersArr, resultsArr, getDisciplinesInDanish, membersRenderArr };
