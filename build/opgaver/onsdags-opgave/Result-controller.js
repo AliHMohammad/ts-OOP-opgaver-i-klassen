@@ -10,9 +10,9 @@ function createResultArr(rawResultsArr) {
         resultsArr.push(newResult);
     }
 }
-function createResultRenderArr(rawResultsArr) {
-    for (const rawResult of rawResultsArr) {
-        const newResult = new ResultRender(rawResult.id, rawResult.memberId, rawResult.competitionLocation, rawResult.competitionName, rawResult.competitionPlacement, rawResult.date, rawResult.discipline, rawResult.resultType, rawResult.time);
+function createResultRenderArr(results) {
+    for (const result of results) {
+        const newResult = new ResultRender(result);
         resultsRenderArr.push(newResult);
     }
 }

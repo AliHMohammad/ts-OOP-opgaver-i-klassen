@@ -26,7 +26,7 @@ async function initApp() {
     createMemberArr(rawMembersArr);
     createMemberRenderArr(membersArr);
     createResultArr(rawResultsArr);
-    createResultRenderArr(rawResultsArr);
+    createResultRenderArr(resultsArr);
 
     sortFilterMembers()
     sortFilterResults()

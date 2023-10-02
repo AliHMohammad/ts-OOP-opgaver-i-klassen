@@ -16,29 +16,35 @@ export class ListRenderer {
         }
     }
     static sortByDate(listOfItems, property) {
-        listOfItems.sort((a, b) => new Date(a._member[property]).getTime() - new Date(b._member[property]).getTime());
+        listOfItems.sort((a, b) => new Date(a._item[property]).getTime() - new Date(b._item[property]).getTime());
     }
     static sortByNumber(listOfItems, property) {
         console.log("sort number");
-        listOfItems.sort((a, b) => a._member[property] - b._member[property]);
+        listOfItems.sort((a, b) => a._item[property] - b._item[property]);
     }
     static sortByString(listOfItems, property) {
         console.log("sort string");
-        listOfItems.sort((a, b) => a._member[property].localeCompare(b._member[property]));
+        listOfItems.sort((a, b) => a._item[property].localeCompare(b._item[property]));
     }
-    static filter(memberArr, property) {
+    static filter(listOfItems, property) {
         let result = [];
         if (property === "isActiveMember") {
-            result = memberArr.filter((item) => item._member.isActiveMember === true);
+            result = listOfItems.filter((index) => index._item.isActiveMember === true);
         }
         else if (property === "!isActiveMember") {
-            result = memberArr.filter((item) => item._member.isActiveMember === false);
+            result = listOfItems.filter((index) => index._item.isActiveMember === false);
         }
         else if (property === "senior") {
-            result = memberArr.filter((item) => item._member.isSenior());
+            result = listOfItems.filter((index) => index._item.isSenior());
         }
         else if (property === "junior") {
-            result = memberArr.filter((item) => item._member.isJunior());
+            result = listOfItems.filter((index) => index._item.isJunior());
+        }
+        else if (property === "competition") {
+            result = listOfItems.filter((index) => index._item.isCompetition());
+        }
+        else if (property === "training") {
+            result = listOfItems.filter((index) => index._item.isTraining());
         }
         return result;
     }

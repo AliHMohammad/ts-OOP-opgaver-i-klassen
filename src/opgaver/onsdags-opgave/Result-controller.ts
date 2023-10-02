@@ -25,19 +25,9 @@ function createResultArr(rawResultsArr: RawResult[]) {
     }
 }
 
-function createResultRenderArr(rawResultsArr: RawResult[]) {
-    for (const rawResult of rawResultsArr) {
-        const newResult = new ResultRender(
-            rawResult.id,
-            rawResult.memberId,
-            rawResult.competitionLocation,
-            rawResult.competitionName,
-            rawResult.competitionPlacement,
-            rawResult.date,
-            rawResult.discipline,
-            rawResult.resultType,
-            rawResult.time
-        );
+function createResultRenderArr(results: Result[]) {
+    for (const result of results) {
+        const newResult = new ResultRender(result);
 
         resultsRenderArr.push(newResult);
     }

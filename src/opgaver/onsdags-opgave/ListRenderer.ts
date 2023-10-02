@@ -23,31 +23,35 @@ export abstract class ListRenderer {
     }
 
     private static sortByDate(listOfItems: MemberRender[], property: keyof Member): void {
-        listOfItems.sort((a: MemberRender, b: MemberRender) => new Date(a._member[property] as Date).getTime() - new Date(b._member[property] as Date).getTime());
+        listOfItems.sort((a: MemberRender, b: MemberRender) => new Date(a._item[property] as Date).getTime() - new Date(b._item[property] as Date).getTime());
     }
 
     private static sortByNumber(listOfItems: MemberRender[], property: keyof Member): void {
         console.log("sort number");
-        listOfItems.sort((a: MemberRender, b: MemberRender) => (a._member[property] as number) - (b._member[property] as number));
+        listOfItems.sort((a: MemberRender, b: MemberRender) => (a._item[property] as number) - (b._item[property] as number));
     }
 
     private static sortByString(listOfItems: MemberRender[], property: keyof Member): void {
         console.log("sort string");
 
-        listOfItems.sort((a: MemberRender, b: MemberRender) => (a._member[property] as string).localeCompare(b._member[property] as string));
+        listOfItems.sort((a: MemberRender, b: MemberRender) => (a._item[property] as string).localeCompare(b._item[property] as string));
     }
 
-    static filter(memberArr: MemberRender[], property: string): MemberRender[] {
+    static filter(listOfItems: MemberRender[], property: string): MemberRender[] {
         let result: MemberRender[] = [];
 
         if (property === "isActiveMember") {
-            result = memberArr.filter((item) => item._member.isActiveMember === true);
+            result = listOfItems.filter((index) => index._item.isActiveMember === true);
         } else if (property === "!isActiveMember") {
-            result = memberArr.filter((item) => item._member.isActiveMember === false);
+            result = listOfItems.filter((index) => index._item.isActiveMember === false);
         } else if (property === "senior") {
-            result = memberArr.filter((item) => item._member.isSenior());
+            result = listOfItems.filter((index) => index._item.isSenior());
         } else if (property === "junior") {
-            result = memberArr.filter((item) => item._member.isJunior());
+            result = listOfItems.filter((index) => index._item.isJunior());
+        } else if (property === "competition") {
+            result = listOfItems.filter((index) => index._item.isCompetition());
+        } else if (property === "training") {
+            result = listOfItems.filter((index) => index._item.isTraining());
         }
 
         return result;
