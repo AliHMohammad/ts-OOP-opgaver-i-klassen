@@ -20,13 +20,12 @@ function sortFilterResults() {
 
     let filteredResults: ResultRender[] = resultsRenderArr;
     console.log(filteredResults);
-    
-    
-    if (filterValue !== "none") {
-        filteredResults = ResultRender.filter(resultsRenderArr, filterValue)
-    } 
 
-    
+    if (filterValue !== "none") {
+        //@ts-ignore
+        filteredResults = ResultRender.filter(resultsRenderArr, filterValue);
+    }
+
     //SORT
     const sortValue = sortElement.value as keyof Result;
     const sortByValue = sortByElement.value;
@@ -40,9 +39,9 @@ function sortFilterResults() {
 
     console.log(sortValue);
     console.log(sortByValue);
-    
-    ResultRender.sort(filteredResults, sortValue, sortDataType)
 
+    //@ts-ignore
+    ResultRender.sort(filteredResults, sortValue, sortDataType);
 
     if (sortByValue === "DESC") {
         filteredResults.reverse();

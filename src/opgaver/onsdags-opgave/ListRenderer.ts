@@ -49,8 +49,10 @@ export abstract class ListRenderer {
         } else if (property === "junior") {
             result = listOfItems.filter((index) => index._item.isJunior());
         } else if (property === "competition") {
+            //@ts-ignore
             result = listOfItems.filter((index) => index._item.isCompetition());
         } else if (property === "training") {
+            //@ts-ignore
             result = listOfItems.filter((index) => index._item.isTraining());
         }
 

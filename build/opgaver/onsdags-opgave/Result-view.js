@@ -16,6 +16,7 @@ function sortFilterResults() {
     let filteredResults = resultsRenderArr;
     console.log(filteredResults);
     if (filterValue !== "none") {
+        //@ts-ignore
         filteredResults = ResultRender.filter(resultsRenderArr, filterValue);
     }
     //SORT
@@ -30,6 +31,7 @@ function sortFilterResults() {
     }
     console.log(sortValue);
     console.log(sortByValue);
+    //@ts-ignore
     ResultRender.sort(filteredResults, sortValue, sortDataType);
     if (sortByValue === "DESC") {
         filteredResults.reverse();
