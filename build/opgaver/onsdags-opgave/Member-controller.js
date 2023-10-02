@@ -10,9 +10,9 @@ function createMemberArr(rawMembersArr) {
         membersArr.push(newMember);
     }
 }
-function createMemberRenderArr(rawMembersArr) {
-    for (const rawMember of rawMembersArr) {
-        const newMemberRender = new MemberRender(rawMember.id, rawMember.firstName, rawMember.lastName, rawMember.email, rawMember.dateOfBirth, rawMember.disciplines, rawMember.gender, rawMember.hasPayed, rawMember.image, rawMember.isActiveMember, rawMember.isCompetitive);
+function createMemberRenderArr(members) {
+    for (const member of members) {
+        const newMemberRender = new MemberRender(member);
         membersRenderArr.push(newMemberRender);
     }
 }

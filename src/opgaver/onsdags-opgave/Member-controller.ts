@@ -27,24 +27,12 @@ function createMemberArr(rawMembersArr: RawMember[]) {
     }
 }
 
-function createMemberRenderArr(rawMembersArr: RawMember[]) {
-    for (const rawMember of rawMembersArr) {
-        const newMemberRender = new MemberRender(
-            rawMember.id,
-            rawMember.firstName,
-            rawMember.lastName,
-            rawMember.email,
-            rawMember.dateOfBirth,
-            rawMember.disciplines,
-            rawMember.gender,
-            rawMember.hasPayed,
-            rawMember.image,
-            rawMember.isActiveMember,
-            rawMember.isCompetitive
-        );
+function createMemberRenderArr(members: Member[]) {
+    for (const member of members) {
+        const newMemberRender = new MemberRender(member);
 
         membersRenderArr.push(newMemberRender);
     }
 }
 
-export {createMemberArr, createMemberRenderArr, getMembers}
+export { createMemberArr, createMemberRenderArr, getMembers };

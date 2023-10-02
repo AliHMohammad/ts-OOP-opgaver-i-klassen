@@ -1,14 +1,19 @@
-import { Member } from "./Member.js";
 import { getDisciplinesInDanish } from "./Member-view.js";
-export class MemberRender extends Member {
+import { ListRenderer } from "./ListRenderer.js";
+export class MemberRender extends ListRenderer {
+    _member;
+    constructor(member) {
+        super();
+        this._member = member;
+    }
     render() {
-        const danskDiscipliner = getDisciplinesInDanish(this._disciplines);
+        const danskDiscipliner = getDisciplinesInDanish(this._member._disciplines);
         return /*html*/ `
         <tr>
-            <td class="name">${this.name}</td>
-            <td>${this._isActiveMember ? "Ja" : "Nej"}</td>
-            <td>${this.dateOfBirthToString}</td>
-            <td class="age">${this.age}</td>
+            <td class="name">${this._member.name}</td>
+            <td>${this._member._isActiveMember ? "Ja" : "Nej"}</td>
+            <td>${this._member.dateOfBirthToString}</td>
+            <td class="age">${this._member.age}</td>
             <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
             <td><button>Delete</button></td>
         </tr>
@@ -16,59 +21,18 @@ export class MemberRender extends Member {
     }
     postRender(containerLastChild) {
         containerLastChild.querySelector(".name")?.addEventListener("click", () => {
-            console.log(this.name);
+            console.log(this._member.name);
         });
         containerLastChild.querySelector(".age")?.addEventListener("click", () => {
-            console.log(this.age);
+            console.log(this._member.age);
         });
         containerLastChild.querySelector("button")?.addEventListener("click", () => {
             console.log(`Deleting..`);
-            console.log(this.name);
+            console.log(this._member.name);
         });
         containerLastChild.querySelector("button")?.addEventListener("click", () => {
             console.log("DELETING...");
-            console.log(this);
+            console.log(this._member);
         });
-    }
-    static sort(memberArr, property, dataType) {
-        if (dataType === "string") {
-            this.sortByString(memberArr, property);
-        }
-        else if (dataType === "number") {
-            this.sortByNumber(memberArr, property);
-        }
-        else if (dataType === "date") {
-            this.sortByDate(memberArr, property);
-        }
-    }
-    static filter(memberArr, property) {
-        let result = [];
-        if (property === "isActiveMember") {
-            result = memberArr.filter((member) => member.isActiveMember === true);
-        }
-        else if (property === "!isActiveMember") {
-            result = memberArr.filter((member) => member.isActiveMember === false);
-        }
-        else if (property === "senior") {
-            result = memberArr.filter((member) => member.isSenior());
-        }
-        else if (property === "junior") {
-            result = memberArr.filter((member) => member.isJunior());
-        }
-        return result;
-    }
-    static clear(container) {
-        container.innerHTML = "";
-    }
-    static sortByDate(memberArr, property) {
-        memberArr.sort((a, b) => new Date(a[property]).getTime() - new Date(b[property]).getTime());
-    }
-    static sortByNumber(memberArr, property) {
-        console.log("sort number");
-        memberArr.sort((a, b) => a[property] - b[property]);
-    }
-    static sortByString(memberArr, property) {
-        console.log("sort string");
-        memberArr.sort((a, b) => a[property].localeCompare(b[property]));
     }
 }

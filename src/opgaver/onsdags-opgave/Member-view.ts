@@ -1,5 +1,5 @@
 import { MemberRender } from "./MemberRender.js";
-import { membersRenderArr } from "./script.js";
+import { membersArr, membersRenderArr } from "./script.js";
 import { Member } from "./Member.js";
 
 function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {

@@ -24,7 +24,7 @@ async function initApp() {
     const rawResultsArr: RawResult[] = await getResults();
 
     createMemberArr(rawMembersArr);
-    createMemberRenderArr(rawMembersArr);
+    createMemberRenderArr(membersArr);
     createResultArr(rawResultsArr);
     createResultRenderArr(rawResultsArr);
 

@@ -13,7 +13,7 @@ async function initApp() {
     const rawMembersArr = await getMembers();
     const rawResultsArr = await getResults();
     createMemberArr(rawMembersArr);
-    createMemberRenderArr(rawMembersArr);
+    createMemberRenderArr(membersArr);
     createResultArr(rawResultsArr);
     createResultRenderArr(rawResultsArr);
     sortFilterMembers();
