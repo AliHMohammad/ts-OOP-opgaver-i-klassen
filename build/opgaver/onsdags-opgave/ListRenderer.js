@@ -6,25 +6,14 @@ export class ListRenderer {
     }
     static sort(listOfItems, property, dataType) {
         if (dataType === "string") {
-            this.sortByString(listOfItems, property);
+            listOfItems.sort((a, b) => a._item[property].localeCompare(b._item[property]));
         }
         else if (dataType === "number") {
-            this.sortByNumber(listOfItems, property);
+            listOfItems.sort((a, b) => a._item[property] - b._item[property]);
         }
         else if (dataType === "date") {
-            this.sortByDate(listOfItems, property);
+            listOfItems.sort((a, b) => new Date(a._item[property]).getTime() - new Date(b._item[property]).getTime());
         }
-    }
-    static sortByDate(listOfItems, property) {
-        listOfItems.sort((a, b) => new Date(a._item[property]).getTime() - new Date(b._item[property]).getTime());
-    }
-    static sortByNumber(listOfItems, property) {
-        console.log("sort number");
-        listOfItems.sort((a, b) => a._item[property] - b._item[property]);
-    }
-    static sortByString(listOfItems, property) {
-        console.log("sort string");
-        listOfItems.sort((a, b) => a._item[property].localeCompare(b._item[property]));
     }
     static filter(listOfItems, property) {
         let result = [];

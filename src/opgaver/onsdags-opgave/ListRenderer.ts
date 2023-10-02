@@ -14,27 +14,12 @@ export abstract class ListRenderer {
 
     static sort(listOfItems: MemberRender[], property: keyof Member, dataType: string): void {
         if (dataType === "string") {
-            this.sortByString(listOfItems, property);
+            listOfItems.sort((a: MemberRender, b: MemberRender) => (a._item[property] as string).localeCompare(b._item[property] as string));
         } else if (dataType === "number") {
-            this.sortByNumber(listOfItems, property);
+            listOfItems.sort((a: MemberRender, b: MemberRender) => (a._item[property] as number) - (b._item[property] as number));
         } else if (dataType === "date") {
-            this.sortByDate(listOfItems, property);
+            listOfItems.sort((a: MemberRender, b: MemberRender) => new Date(a._item[property] as Date).getTime() - new Date(b._item[property] as Date).getTime());
         }
-    }
-
-    private static sortByDate(listOfItems: MemberRender[], property: keyof Member): void {
-        listOfItems.sort((a: MemberRender, b: MemberRender) => new Date(a._item[property] as Date).getTime() - new Date(b._item[property] as Date).getTime());
-    }
-
-    private static sortByNumber(listOfItems: MemberRender[], property: keyof Member): void {
-        console.log("sort number");
-        listOfItems.sort((a: MemberRender, b: MemberRender) => (a._item[property] as number) - (b._item[property] as number));
-    }
-
-    private static sortByString(listOfItems: MemberRender[], property: keyof Member): void {
-        console.log("sort string");
-
-        listOfItems.sort((a: MemberRender, b: MemberRender) => (a._item[property] as string).localeCompare(b._item[property] as string));
     }
 
     static filter(listOfItems: MemberRender[], property: string): MemberRender[] {
