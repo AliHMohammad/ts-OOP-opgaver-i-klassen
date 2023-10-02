@@ -1,4 +1,5 @@
 "use strict";
+//@ts-nocheck
 function constructStudent(firstName, lastName) {
     const student = {
         firstName: firstName,

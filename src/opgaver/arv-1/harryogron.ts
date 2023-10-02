@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 function constructStudent(firstName: string, lastName: string) {
     const student = {
         firstName: firstName,
