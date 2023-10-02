@@ -52,7 +52,7 @@ export class Result {
         }
     }
 
-    private initTime(newTime: string) {
+    private initTime(newTime: string): number {
         try {
             if (!newTime.includes(":") || !newTime.includes(".")) {
                 throw new Error("Wrong format");
