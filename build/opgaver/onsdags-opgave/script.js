@@ -1,12 +1,9 @@
 import { initTabs } from "./tabs.js";
-import * as construct from "./factories.js";
+import * as factoryConstructor from "./factories.js";
+import * as ListRenderer from "./ListRenderer.js";
+import { MemberRenderer } from "./MemberRenderer.js";
+import { ResultRenderer } from "./ResultRenderer.js";
 window.addEventListener("load", initApp);
-const discipliner = {
-    breaststroke: "Bryst",
-    backstroke: "Ryg",
-    freestyle: "Fristil",
-    butterfly: "Sommerfugl",
-};
 let membersArr = [];
 let resultsArr = [];
 async function initApp() {
@@ -15,45 +12,16 @@ async function initApp() {
     const rawResultsArr = await getResults();
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
+    const containerMember = document.querySelector("#members tbody");
+    const memberList = ListRenderer.construct(membersArr, containerMember, MemberRenderer);
+    const containerResult = document.querySelector("#results tbody");
+    const resultList = ListRenderer.construct(resultsArr, containerResult, ResultRenderer);
+    memberList.render();
+    resultList.render();
     sortMembers();
     sortResults();
-    showMembers(membersArr);
-    showResults(resultsArr);
-}
-function showMembers(members) {
-    for (const member of members) {
-        showMember(member);
-    }
-}
-function showMember(member) {
-    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
-    const html = /*html*/ `
-    <tr>
-        <td>${member.name}</td>
-        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
-        <td>${member.dateOfBirthToString}</td>
-        <td>${member.age}</td>
-        <td>${danskDiscipliner ? danskDiscipliner : "Ingen"}</td>
-    </tr>
-    `;
-    document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
-}
-function showResults(results) {
-    for (const result of results) {
-        showResult(result);
-    }
-}
-function showResult(result) {
-    const html = /*html*/ `
-    <tr>
-        <td>${result.dateToString}</td>
-        <td>${result.member ? result.member.name : "Ukendt"}</td>
-        <td>${discipliner[`${result.discipline}`]}</td>
-        <td>${result.resultType === "competition" ? "Kompetitiv" : "Træning"}</td>
-        <td>${result.timeToString}</td>
-    </tr>
-    `;
-    document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
+    // showMembers(membersArr);
+    // showResults(resultsArr);
 }
 function getDisciplinesInDanish(disciplines) {
     const danskArr = [];
@@ -79,12 +47,12 @@ async function getResults() {
 }
 function constructMembers(rawMembers) {
     for (const rawMember of rawMembers) {
-        membersArr.push(construct.factoryMember(rawMember));
+        membersArr.push(factoryConstructor.factoryMember(rawMember));
     }
 }
 function constructResults(rawResults) {
     for (const rawResult of rawResults) {
-        resultsArr.push(construct.factoryResult(rawResult));
+        resultsArr.push(factoryConstructor.factoryResult(rawResult));
     }
 }
-export { membersArr, resultsArr };
+export { membersArr, resultsArr, getDisciplinesInDanish };

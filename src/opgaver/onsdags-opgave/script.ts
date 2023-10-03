@@ -1,15 +1,13 @@
 import { initTabs } from "./tabs.js";
 import { Member, RawMember, RawResult, Result } from "./interfaces.js";
-import * as construct from "./factories.js";
+import * as factoryConstructor from "./factories.js";
+import * as ListRenderer from "./ListRenderer.js"
+import { MemberRenderer } from "./MemberRenderer.js";
+import { ResultRenderer } from "./ResultRenderer.js";
 
 window.addEventListener("load", initApp);
 
-const discipliner: { [key: string]: string } = {
-    breaststroke: "Bryst",
-    backstroke: "Ryg",
-    freestyle: "Fristil",
-    butterfly: "Sommerfugl",
-};
+
 
 let membersArr: Member[] = [];
 let resultsArr: Result[] = [];
@@ -22,59 +20,23 @@ async function initApp() {
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
 
+    const containerMember = document.querySelector("#members tbody") as HTMLElement;
+    const memberList = ListRenderer.construct(membersArr, containerMember, MemberRenderer)
+
+    const containerResult = document.querySelector("#results tbody") as HTMLElement;
+    const resultList = ListRenderer.construct(resultsArr, containerResult, ResultRenderer);
+
+    memberList.render();
+    resultList.render();
+
     sortMembers();
     sortResults();
 
-    showMembers(membersArr);
-    showResults(resultsArr);
+    // showMembers(membersArr);
+    // showResults(resultsArr);
 }
 
-function showMembers(members: Member[]) {
-    for (const member of members) {
-        showMember(member);
-    }
-}
 
-function showMember(member: Member) {
-
-    const danskDiscipliner = getDisciplinesInDanish(member.disciplines);
-
-
-    const html = /*html*/ `
-    <tr>
-        <td>${member.name}</td>
-        <td>${member.isActiveMember ? "Ja" : "Nej"}</td>
-        <td>${member.dateOfBirthToString}</td>
-        <td>${member.age}</td>
-        <td>${danskDiscipliner ? danskDiscipliner : "Ingen" }</td>
-    </tr>
-    `;
-
-    document.querySelector("#members tbody")?.insertAdjacentHTML("beforeend", html);
-}
-
-function showResults(results: Result[]) {
-    for (const result of results) {
-        showResult(result);
-    }
-}
-
-function showResult(result: Result) {
-
-
-    const html = /*html*/ `
-    <tr>
-        <td>${result.dateToString}</td>
-        <td>${result.member ? result.member.name : "Ukendt"}</td>
-        <td>${discipliner[`${result.discipline}`]}</td>
-        <td>${result.resultType === "competition" ? "Kompetitiv" : "Træning"}</td>
-        <td>${result.timeToString}</td>
-    </tr>
-    `;
-
-    document.querySelector("#results tbody")?.insertAdjacentHTML("beforeend", html);
-
-}
 
 function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
     const danskArr: string[] = [];
@@ -108,14 +70,14 @@ async function getResults(): Promise<RawResult[]> {
 
 function constructMembers(rawMembers: RawMember[]) {
     for (const rawMember of rawMembers) {
-        membersArr.push(construct.factoryMember(rawMember));
+        membersArr.push(factoryConstructor.factoryMember(rawMember));
     }
 }
 
 function constructResults(rawResults: RawResult[]) {
     for (const rawResult of rawResults) {
-        resultsArr.push(construct.factoryResult(rawResult));
+        resultsArr.push(factoryConstructor.factoryResult(rawResult));
     }
 }
 
-export { membersArr, resultsArr };
+export { membersArr, resultsArr, getDisciplinesInDanish };
