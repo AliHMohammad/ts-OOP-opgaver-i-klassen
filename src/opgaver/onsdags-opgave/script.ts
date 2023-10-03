@@ -12,6 +12,9 @@ window.addEventListener("load", initApp);
 let membersArr: Member[] = [];
 let resultsArr: Result[] = [];
 
+let memberList = [];
+let resultList = [];
+
 async function initApp() {
     initTabs();
     const rawMembersArr: RawMember[] = await getMembers();
@@ -21,19 +24,47 @@ async function initApp() {
     constructResults(rawResultsArr);
 
     const containerMember = document.querySelector("#members tbody") as HTMLElement;
-    const memberList = ListRenderer.construct(membersArr, containerMember, MemberRenderer)
+    memberList = ListRenderer.construct(membersArr, containerMember, MemberRenderer)
 
     const containerResult = document.querySelector("#results tbody") as HTMLElement;
-    const resultList = ListRenderer.construct(resultsArr, containerResult, ResultRenderer);
+    resultList = ListRenderer.construct(resultsArr, containerResult, ResultRenderer);
 
     memberList.render();
     resultList.render();
 
-    sortMembers();
-    sortResults();
 
     // showMembers(membersArr);
     // showResults(resultsArr);
+
+    initiateEventListeners()
+}
+
+function initiateEventListeners() {
+    document.querySelector("#sort-members")?.addEventListener("change", getSortValuesMember);
+    document.querySelector("#sort-order-members")?.addEventListener("change", getSortValuesMember);
+    document.querySelector("#sort-results")?.addEventListener("change", getSortValuesResult);
+    document.querySelector("#sort-order-results")?.addEventListener("change", getSortValuesResult);
+}
+
+function getSortValuesMember(event: Event) {
+    const sortElement = document.querySelector("#sort-members") as HTMLSelectElement;
+    const sortByElement = document.querySelector("#sort-order-members") as HTMLSelectElement;
+
+    const sortValue = sortElement.value;
+    const sortByValue = sortByElement.value;
+
+    memberList.sort(sortValue, sortByValue)
+}
+
+function getSortValuesResult(event: Event) {
+    const sortElement = document.querySelector("#sort-results") as HTMLSelectElement;
+    const sortByElement = document.querySelector("#sort-order-results") as HTMLSelectElement;
+
+    const sortValue = sortElement.value;
+    const sortByValue = sortByElement.value;
+
+    resultList.sort(sortValue, sortByValue);
+
 }
 
 
@@ -52,13 +83,6 @@ function getDisciplinesInDanish(disciplines: string[] | undefined): string | nul
     return danskArr.join(", ")
 }
 
-function sortResults() {
-    resultsArr.sort((a: Result, b: Result) => a.time - b.time);
-}
-
-function sortMembers() {
-    membersArr.sort((a: Member, b: Member) => a.name.localeCompare(b.name));
-}
 
 async function getMembers(): Promise<RawMember[]> {
     return await (await fetch("../../../data/members.json")).json();

@@ -1,47 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medlemmer og Resultater</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="#" type="image/x-icon">
-</head>
-<body>
-  <h1>Medlemmer og Resultater</h1>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Medlemmer og Resultater</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="shortcut icon" href="#" type="image/x-icon" />
+    </head>
+    <body>
+        <h1>Medlemmer og Resultater</h1>
 
-  <div id="tabs">
-    <h2 data-tab-show="members">Medlemmer</h2>
-    <h2 data-tab-show="results">Resultater</h2>
-    <table id="members" class="hide">
-      <thead>
-        <tr>
-          <th>Navn</th>
-          <th>Aktiv</th>
-          <th>Fødselsdag</th>
-          <th>Alder</th>
-          <th>Gruppe</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+        <div style="display: grid; grid-template-columns: 30% 30%;" id="container-sort">
+            <div style="margin-bottom: 1rem;" id="members-filer-sort-container">
+                <h3>Members</h3>
+                <label for="sort">Sort: </label>
+                <select name="sort" id="sort-members">
+                    <option value="name">Name</option>
+                    <option value="age">Age</option>
+                </select>
 
-    <table id="results" class="hide">
-      <thead>
-        <tr>
-          <th>Dato</th>
-          <th>Medlem</th>
-          <th>Disciplin</th>
-          <th>Type</th>
-          <th>Tid</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+                <select name="sort-order" id="sort-order-members">
+                    <option value="ASC">Ascending</option>
+                    <option value="DESC">Descending</option>
+                </select>
 
+                <label style="margin-left: 1rem;" for="filter">Filter: </label>
+                <select name="filter" id="filter-members">
+                    <option value="isActiveMember">Active</option>
+                    <option value="!isActiveMember">Inactive</option>
+                    <option value="senior">Senior</option>
+                    <option value="junior">Junior</option>
+                </select>
+            </div>
 
-  </div>
+            <div style="margin-bottom: 1rem;" id="results-filer-sort-container">
+                <h3>Results</h3>
+                <label for="sort">Sort: </label>
+                <select name="sort" id="sort-results">
+                    <option value="date">Date</option>
+                    <option value="discipline">Discipline</option>
+                    <option value="time">Time</option>
+                </select>
 
-  <script src="script.js" type="module"></script>
-</body>
+                <select name="sort-order" id="sort-order-results">
+                    <option value="ASC">Ascending</option>
+                    <option value="DESC">Descending</option>
+                </select>
+
+                <label style="margin-left: 1rem;" for="filter">Filter: </label>
+                <select name="filter" id="filter-results">
+                    <option value="none">None</option>
+                    <option value="competition">Competition</option>
+                    <option value="training">Training</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="tabs">
+            <h2 data-tab-show="members">Medlemmer</h2>
+            <h2 data-tab-show="results">Resultater</h2>
+            <table id="members" class="hide">
+                <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Aktiv</th>
+                        <th>Fødselsdag</th>
+                        <th>Alder</th>
+                        <th>Gruppe</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <table id="results" class="hide">
+                <thead>
+                    <tr>
+                        <th>Dato</th>
+                        <th>Medlem</th>
+                        <th>Disciplin</th>
+                        <th>Type</th>
+                        <th>Tid</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <script src="script.js" type="module"></script>
+    </body>
 </html>

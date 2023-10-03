@@ -6,6 +6,8 @@ import { ResultRenderer } from "./ResultRenderer.js";
 window.addEventListener("load", initApp);
 let membersArr = [];
 let resultsArr = [];
+let memberList = [];
+let resultList = [];
 async function initApp() {
     initTabs();
     const rawMembersArr = await getMembers();
@@ -13,15 +15,34 @@ async function initApp() {
     constructMembers(rawMembersArr);
     constructResults(rawResultsArr);
     const containerMember = document.querySelector("#members tbody");
-    const memberList = ListRenderer.construct(membersArr, containerMember, MemberRenderer);
+    memberList = ListRenderer.construct(membersArr, containerMember, MemberRenderer);
     const containerResult = document.querySelector("#results tbody");
-    const resultList = ListRenderer.construct(resultsArr, containerResult, ResultRenderer);
+    resultList = ListRenderer.construct(resultsArr, containerResult, ResultRenderer);
     memberList.render();
     resultList.render();
-    sortMembers();
-    sortResults();
     // showMembers(membersArr);
     // showResults(resultsArr);
+    initiateEventListeners();
+}
+function initiateEventListeners() {
+    document.querySelector("#sort-members")?.addEventListener("change", getSortValuesMember);
+    document.querySelector("#sort-order-members")?.addEventListener("change", getSortValuesMember);
+    document.querySelector("#sort-results")?.addEventListener("change", getSortValuesResult);
+    document.querySelector("#sort-order-results")?.addEventListener("change", getSortValuesResult);
+}
+function getSortValuesMember(event) {
+    const sortElement = document.querySelector("#sort-members");
+    const sortByElement = document.querySelector("#sort-order-members");
+    const sortValue = sortElement.value;
+    const sortByValue = sortByElement.value;
+    memberList.sort(sortValue, sortByValue);
+}
+function getSortValuesResult(event) {
+    const sortElement = document.querySelector("#sort-results");
+    const sortByElement = document.querySelector("#sort-order-results");
+    const sortValue = sortElement.value;
+    const sortByValue = sortByElement.value;
+    resultList.sort(sortValue, sortByValue);
 }
 function getDisciplinesInDanish(disciplines) {
     const danskArr = [];
@@ -32,12 +53,6 @@ function getDisciplinesInDanish(disciplines) {
         danskArr.push(discipline);
     }
     return danskArr.join(", ");
-}
-function sortResults() {
-    resultsArr.sort((a, b) => a.time - b.time);
-}
-function sortMembers() {
-    membersArr.sort((a, b) => a.name.localeCompare(b.name));
 }
 async function getMembers() {
     return await (await fetch("../../../data/members.json")).json();
