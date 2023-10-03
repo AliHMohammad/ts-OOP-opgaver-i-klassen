@@ -5,9 +5,13 @@ function construct(list: Member[] | Result[], container: HTMLElement, itemRender
     const ListRenderer = {
         sortBy: "",
         sortDir: "",
+        filterProperty: "",
+        filterValue: "",
+        items: list,
+
         render() {
             container.innerHTML = ""
-            for (const item of list) {
+            for (const item of this.items) {
 
                 const html = itemRenderer.render(item);
 
@@ -33,7 +37,31 @@ function construct(list: Member[] | Result[], container: HTMLElement, itemRender
             }
             
             this.render()
-        } 
+        },
+
+
+        filter(filterProperty: string, filterValue?: string) {
+            console.log(filterProperty);
+            console.log(filterValue);
+            
+            
+            this.filterProperty = filterProperty;
+
+            let filteredList = [];
+            
+            if (filterValue) {
+                this.filterValue = filterValue;
+                filteredList = this.items.filter(item => item[this.filterProperty] == this.filterValue);
+            } else {
+                filteredList = this.items.filter(item => item[this.filterProperty]);
+            }
+
+            this.items = filteredList;
+
+            this.render()
+        }
+
+
     };
 
     return ListRenderer;

@@ -29,6 +29,8 @@ function initiateEventListeners() {
     document.querySelector("#sort-order-members")?.addEventListener("change", getSortValuesMember);
     document.querySelector("#sort-results")?.addEventListener("change", getSortValuesResult);
     document.querySelector("#sort-order-results")?.addEventListener("change", getSortValuesResult);
+    document.querySelector("#filter-members")?.addEventListener("change", filterMembers);
+    document.querySelector("#filter-results")?.addEventListener("change", filterResults);
 }
 function getSortValuesMember(event) {
     const sortElement = document.querySelector("#sort-members");
@@ -43,6 +45,28 @@ function getSortValuesResult(event) {
     const sortValue = sortElement.value;
     const sortByValue = sortByElement.value;
     resultList.sort(sortValue, sortByValue);
+}
+function filterMembers(event) {
+    const filterElement = document.querySelector("#filter-members");
+    const filterValue = filterElement.value;
+    if (filterValue.includes(":")) {
+        const [property, value] = filterValue.split(":");
+        memberList.filter(property, value);
+    }
+    else {
+        memberList.filter(filterValue);
+    }
+}
+function filterResults(event) {
+    const filterElement = document.querySelector("#filter-members");
+    const filterValue = filterElement.value;
+    if (filterValue.includes(":")) {
+        const [property, value] = filterValue.split(":");
+        resultList.filter(property, value);
+    }
+    else {
+        resultList.filter(filterValue);
+    }
 }
 function getDisciplinesInDanish(disciplines) {
     const danskArr = [];

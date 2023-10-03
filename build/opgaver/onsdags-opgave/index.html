@@ -26,10 +26,10 @@
 
                 <label style="margin-left: 1rem;" for="filter">Filter: </label>
                 <select name="filter" id="filter-members">
-                    <option value="isActiveMember">Active</option>
-                    <option value="!isActiveMember">Inactive</option>
-                    <option value="senior">Senior</option>
-                    <option value="junior">Junior</option>
+                    <option value="all">All</option>
+                    <option value="isSenior()">Senior</option>
+                    <option value="isJunior()">Junior</option>
+                    <option value="age:17">17 years old</option>
                 </select>
             </div>
 
@@ -49,9 +49,9 @@
 
                 <label style="margin-left: 1rem;" for="filter">Filter: </label>
                 <select name="filter" id="filter-results">
-                    <option value="none">None</option>
-                    <option value="competition">Competition</option>
-                    <option value="training">Training</option>
+                    <option value="all">All</option>
+                    <option value="isCompetition()">Competition</option>
+                    <option value="isTraining()">Training</option>
                 </select>
             </div>
         </div>
