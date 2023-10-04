@@ -9,6 +9,7 @@ import { ResultRender } from "./ResultRender.js";
 import { createResultArr, createResultRenderArr, getResults } from "./Result-controller.js";
 import { sortFilterResults } from "./Result-view.js";
 
+
 window.addEventListener("load", initApp);
 
 const membersArr: Member[] = [];

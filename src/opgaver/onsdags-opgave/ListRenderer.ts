@@ -1,7 +1,7 @@
 import { Member } from "./Member.js";
 import { MemberRender } from "./MemberRender.js";
-import { Result } from "./Result.js";
 import { ResultRender } from "./ResultRender.js";
+
 
 export abstract class ListRenderer {
     static render(items: MemberRender[] | ResultRender[], container: HTMLElement) {
@@ -22,7 +22,7 @@ export abstract class ListRenderer {
 
     postRender(container: HTMLElement) {}
 
-    static sort(listOfItems: MemberRender[], property: keyof Member, dataType: string): void {
+    static sort(listOfItems: any[], property: string, dataType: string): void {
         if (dataType === "string") {
             listOfItems.sort((a: MemberRender, b: MemberRender) => (a._item[property] as string).localeCompare(b._item[property] as string));
         } else if (dataType === "number") {
@@ -32,8 +32,8 @@ export abstract class ListRenderer {
         }
     }
 
-    static filter(listOfItems: MemberRender[], property: string): MemberRender[] {
-        let result: MemberRender[] = [];
+    static filter(listOfItems: any[], property: string): any[] {
+        let result: any[] = [];
 
         if (property === "none") {
             return listOfItems;

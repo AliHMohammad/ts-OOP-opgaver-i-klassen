@@ -3,6 +3,7 @@ import { Render } from "./interfaces";
 import { discipliner } from "./Result-view.js";
 import { ListRenderer } from "./ListRenderer.js";
 
+
 export class ResultRender extends ListRenderer implements Render {
     _item: Result;
 

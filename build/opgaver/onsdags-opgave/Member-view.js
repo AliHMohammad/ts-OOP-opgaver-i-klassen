@@ -1,4 +1,3 @@
-import { MemberRender } from "./MemberRender.js";
 import { membersRenderArr } from "./script.js";
 import { ListRenderer } from "./ListRenderer.js";
 import { discipliner } from "./Result-view.js";
@@ -19,9 +18,7 @@ function sortFilterMembers() {
     const sortByElement = document.querySelector("#sort-order-members");
     //FILTER
     const filterValue = filterElement.value;
-    console.log(filterValue);
-    const filteredmembers = MemberRender.filter(membersRenderArr, filterValue);
-    console.log(filteredmembers);
+    const filteredmembers = ListRenderer.filter(membersRenderArr, filterValue);
     //SORT
     const sortValue = sortElement.value;
     const sortDirection = sortByElement.value;
@@ -29,7 +26,7 @@ function sortFilterMembers() {
     if (sortValue === "age") {
         sortDataType = "number";
     }
-    MemberRender.sort(filteredmembers, sortValue, sortDataType);
+    ListRenderer.sort(filteredmembers, sortValue, sortDataType);
     if (sortDirection === "DESC") {
         filteredmembers.reverse();
     }

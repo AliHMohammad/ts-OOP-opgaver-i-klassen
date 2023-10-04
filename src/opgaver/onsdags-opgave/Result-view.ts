@@ -1,7 +1,7 @@
 import { ListRenderer } from "./ListRenderer.js";
-import { Result } from "./Result.js";
 import { ResultRender } from "./ResultRender.js";
 import { resultsRenderArr } from "./script.js";
+
 
 const discipliner: { [key: string]: string } = {
     breaststroke: "Bryst",
@@ -17,17 +17,12 @@ function sortFilterResults() {
 
     //FILTER
     const filterValue = filterElement.value;
-    console.log(filterValue);
 
-    
-
-    
-    //@ts-ignore
-    const filteredResults: ResultRender[] = ResultRender.filter(resultsRenderArr, filterValue);
+    const filteredResults: ResultRender[] = ListRenderer.filter(resultsRenderArr, filterValue);
     
 
     //SORT
-    const sortValue = sortElement.value as keyof Result;
+    const sortValue = sortElement.value;
     const sortDirection = sortByElement.value;
     let sortDataType = "string";
 
@@ -36,12 +31,8 @@ function sortFilterResults() {
     } else if (sortValue === "date") {
         sortDataType = "date";
     }
-
-    console.log(sortValue);
-    console.log(sortDirection);
-
-    //@ts-ignore
-    ResultRender.sort(filteredResults, sortValue, sortDataType);
+    
+    ListRenderer.sort(filteredResults, sortValue, sortDataType);
 
     if (sortDirection === "DESC") {
         filteredResults.reverse();

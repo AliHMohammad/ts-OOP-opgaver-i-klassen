@@ -1,5 +1,4 @@
 import { ListRenderer } from "./ListRenderer.js";
-import { ResultRender } from "./ResultRender.js";
 import { resultsRenderArr } from "./script.js";
 const discipliner = {
     breaststroke: "Bryst",
@@ -13,9 +12,7 @@ function sortFilterResults() {
     const sortByElement = document.querySelector("#sort-order-results");
     //FILTER
     const filterValue = filterElement.value;
-    console.log(filterValue);
-    //@ts-ignore
-    const filteredResults = ResultRender.filter(resultsRenderArr, filterValue);
+    const filteredResults = ListRenderer.filter(resultsRenderArr, filterValue);
     //SORT
     const sortValue = sortElement.value;
     const sortDirection = sortByElement.value;
@@ -26,10 +23,7 @@ function sortFilterResults() {
     else if (sortValue === "date") {
         sortDataType = "date";
     }
-    console.log(sortValue);
-    console.log(sortDirection);
-    //@ts-ignore
-    ResultRender.sort(filteredResults, sortValue, sortDataType);
+    ListRenderer.sort(filteredResults, sortValue, sortDataType);
     if (sortDirection === "DESC") {
         filteredResults.reverse();
     }

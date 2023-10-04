@@ -1,7 +1,8 @@
-import { RawMember, Render, StaticRender } from "./interfaces.js";
+import { Render } from "./interfaces.js";
 import { getDisciplinesInDanish } from "./Member-view.js";
 import { ListRenderer } from "./ListRenderer.js";
 import { Member } from "./Member.js";
+
 
 export class MemberRender extends ListRenderer implements Render {
     _item: Member;
