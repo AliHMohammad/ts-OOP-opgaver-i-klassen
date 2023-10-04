@@ -1,3 +1,4 @@
+import { ListRenderer } from "./ListRenderer.js";
 import { Result } from "./Result.js";
 import { ResultRender } from "./ResultRender.js";
 import { resultsRenderArr } from "./script.js";
@@ -18,17 +19,16 @@ function sortFilterResults() {
     const filterValue = filterElement.value;
     console.log(filterValue);
 
-    let filteredResults: ResultRender[] = resultsRenderArr;
-    console.log(filteredResults);
+    
 
-    if (filterValue !== "none") {
-        //@ts-ignore
-        filteredResults = ResultRender.filter(resultsRenderArr, filterValue);
-    }
+    
+    //@ts-ignore
+    const filteredResults: ResultRender[] = ResultRender.filter(resultsRenderArr, filterValue);
+    
 
     //SORT
     const sortValue = sortElement.value as keyof Result;
-    const sortByValue = sortByElement.value;
+    const sortDirection = sortByElement.value;
     let sortDataType = "string";
 
     if (sortValue === "time") {
@@ -38,31 +38,18 @@ function sortFilterResults() {
     }
 
     console.log(sortValue);
-    console.log(sortByValue);
+    console.log(sortDirection);
 
     //@ts-ignore
     ResultRender.sort(filteredResults, sortValue, sortDataType);
 
-    if (sortByValue === "DESC") {
+    if (sortDirection === "DESC") {
         filteredResults.reverse();
     }
 
-    renderAllResults(filteredResults);
-}
-
-function renderAllResults(results: ResultRender[]) {
     const container = document.querySelector("#results tbody") as HTMLElement;
-    ResultRender.clear(container);
-
-    for (const result of results) {
-        const html = result.render();
-        container.insertAdjacentHTML("beforeend", html)
-
-        if (container.lastElementChild) {
-            result.postRender(container.lastElementChild as HTMLElement);
-        }
-    }
+    ListRenderer.render(filteredResults, container);
 }
 
 
-export { discipliner, renderAllResults, sortFilterResults };
+export { discipliner, sortFilterResults };

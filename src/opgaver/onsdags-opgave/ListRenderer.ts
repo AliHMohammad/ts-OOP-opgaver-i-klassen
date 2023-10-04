@@ -4,13 +4,26 @@ import { Result } from "./Result.js";
 import { ResultRender } from "./ResultRender.js";
 
 export abstract class ListRenderer {
-    render() {}
+
+
+    static render(items: MemberRender[] | ResultRender[], container: HTMLElement) {
+        container.innerHTML = "";
+
+        for (const item of items) {
+            const html = item.render()
+
+            container.insertAdjacentHTML("beforeend", html);
+
+            if (container.lastElementChild) {
+                item.postRender(container.lastElementChild as HTMLElement);
+            }
+        }
+    }
+
+    render(){}
 
     postRender(container: HTMLElement) {}
 
-    static clear(container: HTMLElement) {
-        container.innerHTML = "";
-    }
 
     static sort(listOfItems: MemberRender[], property: keyof Member, dataType: string): void {
         if (dataType === "string") {
@@ -22,8 +35,14 @@ export abstract class ListRenderer {
         }
     }
 
+    
+
     static filter(listOfItems: MemberRender[], property: string): MemberRender[] {
         let result: MemberRender[] = [];
+
+        if (property === "none") {
+            return listOfItems;
+        }
 
         if (property === "isActiveMember") {
             result = listOfItems.filter((index) => index._item.isActiveMember === true);

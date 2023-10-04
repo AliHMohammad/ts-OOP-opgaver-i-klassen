@@ -1,6 +1,9 @@
 import { MemberRender } from "./MemberRender.js";
 import { membersArr, membersRenderArr } from "./script.js";
 import { Member } from "./Member.js";
+import { ListRenderer } from "./ListRenderer.js";
+import { discipliner } from "./Result-view.js";
+
 
 function getDisciplinesInDanish(disciplines: string[] | undefined): string | null {
     const danskArr: string[] = [];
@@ -10,7 +13,7 @@ function getDisciplinesInDanish(disciplines: string[] | undefined): string | nul
     }
 
     for (const discipline of disciplines) {
-        danskArr.push(discipline);
+        danskArr.push(discipliner[discipline]);
     }
 
     return danskArr.join(", ");
@@ -32,7 +35,7 @@ function sortFilterMembers() {
 
     //SORT
     const sortValue = sortElement.value as keyof Member;
-    const sortByValue = sortByElement.value;
+    const sortDirection = sortByElement.value;
     let sortDataType = "string";
 
     if (sortValue === "age") {
@@ -41,24 +44,12 @@ function sortFilterMembers() {
 
     MemberRender.sort(filteredmembers, sortValue, sortDataType);
 
-    if (sortByValue === "DESC") {
+    if (sortDirection === "DESC") {
         filteredmembers.reverse();
     }
 
-    renderAllMembers(filteredmembers);
-}
-
-function renderAllMembers(members: MemberRender[]) {
     const container = document.querySelector("#members tbody") as HTMLElement;
-    MemberRender.clear(container);
-    for (const member of members) {
-        const html = member.render();
-        container.insertAdjacentHTML("beforeend", html);
-
-        if (container.lastElementChild) {
-            member.postRender(container.lastElementChild as HTMLElement);
-        }
-    }
+    ListRenderer.render(filteredmembers, container)
 }
 
 

@@ -1,12 +1,14 @@
 import { MemberRender } from "./MemberRender.js";
 import { membersRenderArr } from "./script.js";
+import { ListRenderer } from "./ListRenderer.js";
+import { discipliner } from "./Result-view.js";
 function getDisciplinesInDanish(disciplines) {
     const danskArr = [];
     if (!disciplines) {
         return null;
     }
     for (const discipline of disciplines) {
-        danskArr.push(discipline);
+        danskArr.push(discipliner[discipline]);
     }
     return danskArr.join(", ");
 }
@@ -22,26 +24,16 @@ function sortFilterMembers() {
     console.log(filteredmembers);
     //SORT
     const sortValue = sortElement.value;
-    const sortByValue = sortByElement.value;
+    const sortDirection = sortByElement.value;
     let sortDataType = "string";
     if (sortValue === "age") {
         sortDataType = "number";
     }
     MemberRender.sort(filteredmembers, sortValue, sortDataType);
-    if (sortByValue === "DESC") {
+    if (sortDirection === "DESC") {
         filteredmembers.reverse();
     }
-    renderAllMembers(filteredmembers);
-}
-function renderAllMembers(members) {
     const container = document.querySelector("#members tbody");
-    MemberRender.clear(container);
-    for (const member of members) {
-        const html = member.render();
-        container.insertAdjacentHTML("beforeend", html);
-        if (container.lastElementChild) {
-            member.postRender(container.lastElementChild);
-        }
-    }
+    ListRenderer.render(filteredmembers, container);
 }
 export { sortFilterMembers, getDisciplinesInDanish };

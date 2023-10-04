@@ -1,9 +1,16 @@
 export class ListRenderer {
+    static render(items, container) {
+        container.innerHTML = "";
+        for (const item of items) {
+            const html = item.render();
+            container.insertAdjacentHTML("beforeend", html);
+            if (container.lastElementChild) {
+                item.postRender(container.lastElementChild);
+            }
+        }
+    }
     render() { }
     postRender(container) { }
-    static clear(container) {
-        container.innerHTML = "";
-    }
     static sort(listOfItems, property, dataType) {
         if (dataType === "string") {
             listOfItems.sort((a, b) => a._item[property].localeCompare(b._item[property]));
@@ -17,6 +24,9 @@ export class ListRenderer {
     }
     static filter(listOfItems, property) {
         let result = [];
+        if (property === "none") {
+            return listOfItems;
+        }
         if (property === "isActiveMember") {
             result = listOfItems.filter((index) => index._item.isActiveMember === true);
         }
