@@ -11,7 +11,8 @@
         <h1>Medlemmer og Resultater</h1>
 
         <div style="display: grid; grid-template-columns: 30% 30%;" id="container-sort">
-            <div style="margin-bottom: 1rem;" id="members-filer-sort-container">
+
+            <div style="margin-bottom: 1rem;" id="members-filter-sort-container">
                 <h3>Members</h3>
                 <label for="sort">Sort: </label>
                 <select name="sort" id="sort-members">
@@ -26,14 +27,14 @@
 
                 <label style="margin-left: 1rem;" for="filter">Filter: </label>
                 <select name="filter" id="filter-members">
-                    <option value="isActiveMember">Active</option>
-                    <option value="!isActiveMember">Inactive</option>
+                    <option value="_isActiveMember:true">Active</option>
+                    <option value="_isActiveMember:false">Inactive</option>
                     <option value="senior">Senior</option>
                     <option value="junior">Junior</option>
                 </select>
             </div>
 
-            <div style="margin-bottom: 1rem;" id="results-filer-sort-container">
+            <div style="margin-bottom: 1rem;" id="results-filter-sort-container">
                 <h3>Results</h3>
                 <label for="sort">Sort: </label>
                 <select name="sort" id="sort-results">
@@ -52,8 +53,10 @@
                     <option value="none">None</option>
                     <option value="competition">Competition</option>
                     <option value="training">Training</option>
+                    <option value="_discipline:butterfly">Sommerfugl</option>
                 </select>
             </div>
+
         </div>
 
         <div id="tabs">

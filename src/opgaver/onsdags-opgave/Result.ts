@@ -13,6 +13,8 @@ export class Result {
     _time: number;
     _member: Member | undefined;
 
+    //Bliver brugt til filtrering af key-value. Se ListRenderer class
+    [key: string]: any;
 
     constructor(
         id: string,
@@ -61,7 +63,7 @@ export class Result {
             const [minutes, secondsAndMiliSec] = newTime.split(":");
             const [seconds, milliSeconds] = secondsAndMiliSec.split(".");
             const time = Number(minutes) * 60000 + Number(seconds) * 1000 + Number(milliSeconds);
-            return time
+            return time;
         } catch (error) {
             console.log(error);
             return 0;

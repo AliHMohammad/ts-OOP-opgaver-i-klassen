@@ -4,13 +4,11 @@ import { Result } from "./Result.js";
 import { ResultRender } from "./ResultRender.js";
 
 export abstract class ListRenderer {
-
-
     static render(items: MemberRender[] | ResultRender[], container: HTMLElement) {
         container.innerHTML = "";
 
         for (const item of items) {
-            const html = item.render()
+            const html = item.render();
 
             container.insertAdjacentHTML("beforeend", html);
 
@@ -20,10 +18,9 @@ export abstract class ListRenderer {
         }
     }
 
-    render(){}
+    render() {}
 
     postRender(container: HTMLElement) {}
-
 
     static sort(listOfItems: MemberRender[], property: keyof Member, dataType: string): void {
         if (dataType === "string") {
@@ -35,8 +32,6 @@ export abstract class ListRenderer {
         }
     }
 
-    
-
     static filter(listOfItems: MemberRender[], property: string): MemberRender[] {
         let result: MemberRender[] = [];
 
@@ -44,19 +39,23 @@ export abstract class ListRenderer {
             return listOfItems;
         }
 
-        if (property === "isActiveMember") {
-            result = listOfItems.filter((index) => index._item.isActiveMember === true);
-        } else if (property === "!isActiveMember") {
-            result = listOfItems.filter((index) => index._item.isActiveMember === false);
-        } else if (property === "senior") {
+        if (property.includes(":")) {
+            let [key, value] = property.split(":");
+
+            if (value === "true" || value === "false") {
+                value = JSON.parse(value);
+            }
+
+            return listOfItems.filter((index) => index._item[key] == value);
+        }
+
+        if (property === "senior") {
             result = listOfItems.filter((index) => index._item.isSenior());
         } else if (property === "junior") {
             result = listOfItems.filter((index) => index._item.isJunior());
         } else if (property === "competition") {
-            //@ts-ignore
             result = listOfItems.filter((index) => index._item.isCompetition());
         } else if (property === "training") {
-            //@ts-ignore
             result = listOfItems.filter((index) => index._item.isTraining());
         }
 

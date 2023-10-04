@@ -27,24 +27,23 @@ export class ListRenderer {
         if (property === "none") {
             return listOfItems;
         }
-        if (property === "isActiveMember") {
-            result = listOfItems.filter((index) => index._item.isActiveMember === true);
+        if (property.includes(":")) {
+            let [key, value] = property.split(":");
+            if (value === "true" || value === "false") {
+                value = JSON.parse(value);
+            }
+            return listOfItems.filter((index) => index._item[key] == value);
         }
-        else if (property === "!isActiveMember") {
-            result = listOfItems.filter((index) => index._item.isActiveMember === false);
-        }
-        else if (property === "senior") {
+        if (property === "senior") {
             result = listOfItems.filter((index) => index._item.isSenior());
         }
         else if (property === "junior") {
             result = listOfItems.filter((index) => index._item.isJunior());
         }
         else if (property === "competition") {
-            //@ts-ignore
             result = listOfItems.filter((index) => index._item.isCompetition());
         }
         else if (property === "training") {
-            //@ts-ignore
             result = listOfItems.filter((index) => index._item.isTraining());
         }
         return result;

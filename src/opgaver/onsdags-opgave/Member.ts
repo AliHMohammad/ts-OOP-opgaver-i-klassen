@@ -12,6 +12,9 @@ export class Member {
     _isActiveMember: boolean;
     _isCompetitive: boolean;
 
+    //Bliver brugt til filtrering af key-value. Se ListRenderer class
+    [key: string]: any;
+
     constructor(
         id: string,
         firstName: string,
@@ -80,6 +83,4 @@ export class Member {
     isSenior(): boolean {
         return this.age >= 18;
     }
-
-    
 }
