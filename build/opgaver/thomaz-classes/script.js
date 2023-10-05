@@ -28,12 +28,14 @@ class Circle4 {
     _radius;
     constructor(_radius) {
         this._radius = _radius;
+        //@ts-ignore
         this[_radiusSymbol] = _radius;
     }
     [_drawSymbol]() {
         console.log("Draw");
     }
     get radius() {
+        //@ts-ignore
         return this[_radiusSymbol];
     }
 }

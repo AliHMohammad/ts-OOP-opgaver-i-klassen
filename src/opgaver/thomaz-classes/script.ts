@@ -32,6 +32,7 @@ const _drawSymbol = Symbol();
 
 class Circle4 {
     constructor(public _radius: number) {
+        //@ts-ignore
         this[_radiusSymbol] = _radius;
     }
 
@@ -41,6 +42,7 @@ class Circle4 {
     }
 
     get radius() {
+        //@ts-ignore
         return this[_radiusSymbol]
     }
 }
