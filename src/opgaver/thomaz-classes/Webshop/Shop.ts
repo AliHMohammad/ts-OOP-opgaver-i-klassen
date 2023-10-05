@@ -5,26 +5,26 @@ import { Electronics } from "./Electronics.js";
 import { Product, ProductClass } from "./interface.js";
 
 export class Shop {
-    private _products: ProductClass[];
+    private products: ProductClass[];
 
     constructor() {
-        this._products = [];
+        this.products = [];
     }
 
     addProduct(product: ProductClass) {
-        this._products.push(product);
+        this.products.push(product);
     }
 
     getProducts() {
-        return this._products;
+        return this.products;
     }
 
     getTotalPrice() {
-        return this._products.reduce((acc, product) => acc + product.price, 0);
+        return this.products.reduce((acc, product) => acc + product.getPrice(), 0);
     }
 
-    filter(type: any) {
-        return this._products.filter((product) => product instanceof type);
+    filter(type: Function) {
+        return this.products.filter((product) => product instanceof type);
     }
 }
 

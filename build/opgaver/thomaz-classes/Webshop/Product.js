@@ -8,4 +8,7 @@ export class Product {
     getTotalPrice(quantity) {
         return this.price * quantity;
     }
+    getPrice() {
+        return this.price;
+    }
 }

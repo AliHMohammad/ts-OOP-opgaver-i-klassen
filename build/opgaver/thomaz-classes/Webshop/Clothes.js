@@ -1,4 +1,4 @@
-import { Product } from "./Product";
+import { Product } from "./Product.js";
 export class Clothes extends Product {
     size;
     color;
