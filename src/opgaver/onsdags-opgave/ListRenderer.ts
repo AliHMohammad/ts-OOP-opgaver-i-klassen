@@ -3,19 +3,21 @@ import { getDisciplinesInDanish } from "./script.js";
 
 function construct(list: Member[] | Result[], container: HTMLElement, itemRenderer: any) {
     const ListRenderer = {
+        container: container,
+        itemRenderer: itemRenderer,
+        items: list,
         sortBy: "",
         sortDir: "",
         filterProperty: "",
         filterValue: "",
-        items: list,
 
         render() {
-            container.innerHTML = ""
+            this.container.innerHTML = ""
             for (const item of this.items) {
 
-                const html = itemRenderer.render(item);
+                const html = this.itemRenderer.render(item);
 
-                container.insertAdjacentHTML("beforeend", html);
+                this.container.insertAdjacentHTML("beforeend", html);
             }
         },
 
